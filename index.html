@@ -967,6 +967,267 @@
           <div class="writeup-link">read writeup ↗</div>
         </div>
       </a>
+
+      <a class="writeup-card" href="poisonedcredentials-lab.html">
+        <div class="writeup-banner">
+<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pcbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1a1c"/>
+      <stop offset="100%" stop-color="#07050a"/>
+    </linearGradient>
+    <radialGradient id="pcglow" cx="20%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#3dffa0" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#3dffa0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pcglow2" cx="85%" cy="80%" r="55%">
+      <stop offset="0%" stop-color="#3fc9ff" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#3fc9ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pctxt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3dffa0"/>
+      <stop offset="100%" stop-color="#3fc9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="340" fill="url(#pcbg)"/>
+  <rect width="1200" height="340" fill="url(#pcglow)"/>
+  <rect width="1200" height="340" fill="url(#pcglow2)"/>
+
+  <!-- broadcast/poison watermark: radiating waves from a rogue node -->
+  <g opacity="0.85" transform="translate(990,175)">
+    <circle cx="0" cy="0" r="8" fill="none" stroke="#3fc9ff" stroke-width="3"/>
+    <circle cx="0" cy="0" r="34" fill="none" stroke="#3fc9ff" stroke-width="2" opacity="0.55"/>
+    <circle cx="0" cy="0" r="62" fill="none" stroke="#3fc9ff" stroke-width="2" opacity="0.35"/>
+    <circle cx="0" cy="0" r="90" fill="none" stroke="#3fc9ff" stroke-width="2" opacity="0.2"/>
+    <g transform="translate(0,-90)">
+      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
+      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
+      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
+    </g>
+  </g>
+
+  <!-- corner brackets -->
+  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#3dffa0" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#3fc9ff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- tag pill -->
+  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#3dffa0" stroke-width="1.4" opacity="0.85"/>
+  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#3dffa0">CYBERDEFENDERS · RETIRED</text>
+
+  <!-- title -->
+  <text x="62" y="178" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="46" fill="url(#pctxt)" letter-spacing="-1">PoisonedCredentials</text>
+  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Network Forensics · LLMNR/NBT-NS Poisoning · Easy</text>
+
+  <!-- ghost terminal -->
+  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ llmnr and ip.src == 192.168.232.162</text>
+  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tool: wireshark</text>
+</svg>
+
+        </div>
+        <div class="writeup-body">
+          <div class="writeup-meta">CyberDefenders · Network Forensics · Easy</div>
+          <div class="writeup-title">PoisonedCredentials Lab</div>
+          <div class="writeup-desc">LLMNR/NBT-NS poisoning traced purely from a packet capture — identifying the rogue host, every poisoned victim, and the NTLM account it compromised.</div>
+          <div class="writeup-link">read writeup ↗</div>
+        </div>
+      </a>
+
+      <a class="writeup-card" href="psexec-hunt-lab.html">
+        <div class="writeup-banner">
+<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pxbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1420"/>
+      <stop offset="100%" stop-color="#07050a"/>
+    </linearGradient>
+    <radialGradient id="pxglow" cx="20%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#b18aff" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#b18aff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pxglow2" cx="85%" cy="80%" r="55%">
+      <stop offset="0%" stop-color="#3fc9ff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#3fc9ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pxtxt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b18aff"/>
+      <stop offset="100%" stop-color="#3fc9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="340" fill="url(#pxbg)"/>
+  <rect width="1200" height="340" fill="url(#pxglow)"/>
+  <rect width="1200" height="340" fill="url(#pxglow2)"/>
+
+  <!-- lateral movement watermark: three nodes chained with arrows -->
+  <g opacity="0.85" transform="translate(860,120)">
+    <circle cx="0" cy="60" r="20" fill="none" stroke="#b18aff" stroke-width="2.4" opacity="0.5"/>
+    <circle cx="110" cy="20" r="20" fill="none" stroke="#b18aff" stroke-width="2.4" opacity="0.5"/>
+    <circle cx="220" cy="70" r="20" fill="none" stroke="#b18aff" stroke-width="2.4" opacity="0.5"/>
+    <path d="M18 50 L94 26" stroke="#b18aff" stroke-width="2" opacity="0.45"/>
+    <path d="M128 28 L204 62" stroke="#b18aff" stroke-width="2" opacity="0.45"/>
+    <g transform="translate(110,20)">
+      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
+      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
+      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
+    </g>
+  </g>
+
+  <!-- corner brackets -->
+  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#b18aff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#3fc9ff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- tag pill -->
+  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#b18aff" stroke-width="1.4" opacity="0.85"/>
+  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#b18aff">CYBERDEFENDERS · RETIRED</text>
+
+  <!-- title -->
+  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="60" fill="url(#pxtxt)" letter-spacing="-1">PsExec Hunt</text>
+  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Network Forensics · Lateral Movement · Easy</text>
+
+  <!-- ghost terminal -->
+  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ smb2.tree contains PSEXESVC</text>
+  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tool: wireshark</text>
+</svg>
+
+        </div>
+        <div class="writeup-body">
+          <div class="writeup-meta">CyberDefenders · Network Forensics · Easy</div>
+          <div class="writeup-title">PsExec Hunt Lab</div>
+          <div class="writeup-desc">Tracing PsExec lateral movement across two hosts in Wireshark — entry point, compromised credentials, service install, and the ADMIN$/IPC$ share chain.</div>
+          <div class="writeup-link">read writeup ↗</div>
+        </div>
+      </a>
+
+      <a class="writeup-card" href="dragonfly-lab.html">
+        <div class="writeup-banner">
+<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="dfbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101a14"/>
+      <stop offset="100%" stop-color="#07050a"/>
+    </linearGradient>
+    <radialGradient id="dfglow" cx="20%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#3dffa0" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#3dffa0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="dfglow2" cx="85%" cy="80%" r="55%">
+      <stop offset="0%" stop-color="#ffb454" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffb454" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dftxt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3dffa0"/>
+      <stop offset="100%" stop-color="#ffb454"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="340" fill="url(#dfbg)"/>
+  <rect width="1200" height="340" fill="url(#dfglow)"/>
+  <rect width="1200" height="340" fill="url(#dfglow2)"/>
+
+  <!-- MSG/attachment watermark -->
+  <g opacity="0.85" transform="translate(880,70)">
+    <rect x="0" y="20" width="220" height="150" rx="14" fill="none" stroke="#3dffa0" stroke-width="2.4" opacity="0.4"/>
+    <path d="M4 28 L110 100 L216 28" fill="none" stroke="#3dffa0" stroke-width="2.4" opacity="0.4"/>
+    <rect x="26" y="120" width="60" height="34" rx="4" fill="none" stroke="#ffb454" stroke-width="2" opacity="0.5"/>
+    <text x="32" y="141" font-family="JetBrains Mono, monospace" font-size="11" fill="#ffb454" opacity="0.6">.msg</text>
+    <g transform="translate(150,150)">
+      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
+      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
+      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
+    </g>
+  </g>
+
+  <!-- corner brackets -->
+  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#3dffa0" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#ffb454" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- tag pill -->
+  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#3dffa0" stroke-width="1.4" opacity="0.85"/>
+  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#3dffa0">CYBERDEFENDERS · T1598.002</text>
+
+  <!-- title -->
+  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="52" fill="url(#dftxt)" letter-spacing="-1">Dragonfly Lab</text>
+  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Endpoint Forensics · Spearphishing for Info · Easy</text>
+
+  <!-- ghost terminal -->
+  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ oledump.py -p plugin_msg.py T1598.msg</text>
+  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: oledump · outlookspy · cyberchef · python</text>
+</svg>
+
+        </div>
+        <div class="writeup-body">
+          <div class="writeup-meta">CyberDefenders · T1598.002 · Easy</div>
+          <div class="writeup-title">T1598.002 Dragonfly Lab</div>
+          <div class="writeup-desc">A spearphishing MSG parsed with oledump — sender SPF analysis, a password-protected ZIP, and a malicious LNK-to-regsvr32 delivery chain.</div>
+          <div class="writeup-link">read writeup ↗</div>
+        </div>
+      </a>
+
+      <a class="writeup-card" href="yellowrat-lab.html">
+        <div class="writeup-banner">
+<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="yrbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1c1a09"/>
+      <stop offset="100%" stop-color="#07050a"/>
+    </linearGradient>
+    <radialGradient id="yrglow" cx="20%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe14d" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#ffe14d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="yrglow2" cx="85%" cy="80%" r="55%">
+      <stop offset="0%" stop-color="#ff5da2" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#ff5da2" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="yrtxt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffe14d"/>
+      <stop offset="100%" stop-color="#ff5da2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="340" fill="url(#yrbg)"/>
+  <rect width="1200" height="340" fill="url(#yrglow)"/>
+  <rect width="1200" height="340" fill="url(#yrglow2)"/>
+
+  <!-- RAT / remote-access watermark: simple rodent-ish node graph (radar + tail) -->
+  <g opacity="0.85" transform="translate(950,150)">
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#ffe14d" stroke-width="2.4" opacity="0.45"/>
+    <circle cx="-16" cy="-14" r="6" fill="none" stroke="#ffe14d" stroke-width="2" opacity="0.5"/>
+    <circle cx="16" cy="-14" r="6" fill="none" stroke="#ffe14d" stroke-width="2" opacity="0.5"/>
+    <path d="M-44 20 Q-70 40 -90 20" fill="none" stroke="#ffe14d" stroke-width="2.4" opacity="0.4"/>
+    <g transform="translate(0,90)">
+      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
+      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
+      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
+    </g>
+  </g>
+
+  <!-- corner brackets -->
+  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#ffe14d" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#ff5da2" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- tag pill -->
+  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#ffe14d" stroke-width="1.4" opacity="0.85"/>
+  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#ffe14d">CYBERDEFENDERS · RETIRED</text>
+
+  <!-- title -->
+  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="66" fill="url(#yrtxt)" letter-spacing="-1">Yellow RAT</text>
+  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Threat Intel · Yellow Cockatoo RAT · Easy</text>
+
+  <!-- ghost terminal -->
+  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">C2: https://gogohid[.]com/gate?q=ENCODED_HOST_INFO</text>
+  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: VirusTotal · Red Canary</text>
+</svg>
+
+        </div>
+        <div class="writeup-body">
+          <div class="writeup-meta">CyberDefenders · Threat Intel · Easy</div>
+          <div class="writeup-title">Yellow RAT Lab</div>
+          <div class="writeup-desc">Pure threat-intel pivoting from a single hash to full attribution — Yellow Cockatoo RAT, its persistence artifact, and its C2 infrastructure.</div>
+          <div class="writeup-link">read writeup ↗</div>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -994,7 +1255,7 @@
       </div>
       <div class="tool-row">
         <div class="tool-cat">Threat Intel · OSINT <span class="n">04</span></div>
-        <div class="tool-tags"><span class="tag">VirusTotal</span><span class="tag">Shodan</span><span class="tag">MITRE ATT&amp;CK</span><span class="tag">URLhaus</span><span class="tag">URLScan.io</span><span class="tag">MalwareBazaar</span><span class="tag">VMRay</span><span class="tag">Email Header Analyzer</span></div>
+        <div class="tool-tags"><span class="tag">VirusTotal</span><span class="tag">Shodan</span><span class="tag">MITRE ATT&amp;CK</span><span class="tag">URLhaus</span><span class="tag">URLScan.io</span><span class="tag">MalwareBazaar</span><span class="tag">VMRay</span><span class="tag">Email Header Analyzer</span><span class="tag">Red Canary</span></div>
       </div>
       <div class="tool-row">
         <div class="tool-cat">Disk Analysis <span class="n">05</span></div>
@@ -1003,6 +1264,10 @@
       <div class="tool-row">
         <div class="tool-cat">Registry &amp; Artifact Analysis <span class="n">06</span></div>
         <div class="tool-tags"><span class="tag">Registry Explorer</span><span class="tag">Event Log Explorer</span><span class="tag">AppCompatCacheParser</span></div>
+      </div>
+      <div class="tool-row">
+        <div class="tool-cat">Email Forensics <span class="n">07</span></div>
+        <div class="tool-tags"><span class="tag">Oledump</span><span class="tag">OutlookSpy</span><span class="tag">Email Header Analyzer</span></div>
       </div>
     </div>
   </section>
