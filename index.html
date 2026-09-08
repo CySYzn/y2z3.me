@@ -144,6 +144,30 @@
   }
   .hero-loc{font-size:12px; color:var(--text-faint);}
 
+  /* ===== ANIMATED LOGO BADGE ===== */
+  .logo-stage{
+    display:flex; justify-content:center; margin-bottom:36px; perspective:800px;
+  }
+  .logo-badge{
+    position:relative; width:150px; height:150px;
+    animation:logoFloat 4.5s ease-in-out infinite;
+    transform-style:preserve-3d; transition:transform .15s ease-out;
+    filter:drop-shadow(0 10px 24px rgba(63,201,255,0.18));
+  }
+  .logo-badge .layer{position:absolute; inset:0; width:100%; height:100%;}
+  .logo-badge .layer.ring{animation:logoSpin 14s linear infinite;}
+  @keyframes logoFloat{
+    0%, 100%{transform:translateY(0);}
+    50%{transform:translateY(-9px);}
+  }
+  @keyframes logoSpin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .logo-badge, .logo-badge .layer.ring{animation:none;}
+  }
+
   .terminal{
     background:linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
     border:1px solid var(--line); border-radius:12px;
@@ -295,15 +319,19 @@
   /* ===== TOOLS ===== */
   .tool-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px 40px;}
   @media (max-width:700px){ .tool-grid{grid-template-columns:1fr;} }
-  .tool-row{
-    display:flex; justify-content:space-between; align-items:center; gap:20px;
-    padding:18px 0; border-bottom:1px solid var(--line-soft);
-    flex-wrap:wrap;
+
+  /* ===== TOOLS: capability grid ===== */
+  .tools-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:18px;}
+  .tool-card{
+    border:1px solid var(--line); border-top:3px solid var(--accent, var(--cyan));
+    border-radius:10px; padding:22px; background:rgba(255,255,255,.014);
+    transition:transform .18s ease, background .18s ease;
   }
-  .tool-cat{font-size:12.5px; color:var(--text-dim); min-width:170px; letter-spacing:.01em;}
-  .tool-cat .n{color:var(--text-faint); font-size:11px;}
-  .tool-tags{display:flex; flex-wrap:wrap; gap:7px; justify-content:flex-end; flex:1;}
-  .tool-tags .tag{color:var(--text); border-color:var(--line);}
+  .tool-card:hover{transform:translateY(-4px); background:rgba(255,255,255,.03);}
+  .tool-card .icon{width:30px; height:30px; margin-bottom:16px; color:var(--accent, var(--cyan));}
+  .tool-card .cat-name{font-family:var(--disp); font-weight:700; font-size:15.5px; color:var(--text); margin-bottom:14px;}
+  .tool-card .tags{display:flex; flex-wrap:wrap; gap:7px;}
+  .tool-card .tags .tag{color:var(--text-dim); border-color:var(--line);}
 
   /* ===== WRITEUPS ===== */
   .writeup-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:22px;}
@@ -320,6 +348,28 @@
   .writeup-title{font-family:var(--disp); font-weight:700; font-size:20px; margin-bottom:8px; color:var(--text);}
   .writeup-desc{font-size:13px; color:var(--text-dim); margin-bottom:14px;}
   .writeup-link{font-size:12px; color:var(--cyan); font-weight:600;}
+
+  .platform-card{
+    display:flex; align-items:center; gap:28px; flex-wrap:wrap;
+    border:1px solid var(--line); border-radius:14px; padding:32px;
+    background:linear-gradient(135deg, rgba(63,201,255,.05), rgba(255,93,162,.04));
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .platform-card:hover{transform:translateY(-4px); border-color:var(--cyan);}
+  .platform-badge{
+    width:76px; height:76px; border-radius:16px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(63,201,255,.08); border:1px solid var(--line);
+  }
+  .platform-info{flex:1; min-width:220px;}
+  .platform-name{font-family:var(--disp); font-weight:700; font-size:24px; color:var(--text); margin-bottom:6px;}
+  .platform-stat{font-size:12px; color:var(--cyan); font-weight:600; letter-spacing:.02em; margin-bottom:10px;}
+  .platform-desc{font-size:13.5px; color:var(--text-dim); max-width:480px;}
+  .platform-cta{
+    font-size:13px; color:var(--bg); background:var(--cyan); font-weight:700;
+    padding:12px 22px; border-radius:8px; white-space:nowrap; flex-shrink:0;
+  }
+  .platform-card:hover .platform-cta{background:#5affb4;}
 
   /* ===== FOOTER / CONTACT ===== */
   footer{
@@ -373,6 +423,58 @@
 <main>
   <!-- HERO -->
   <section class="hero wrap">
+    <div class="logo-stage" id="logo-stage">
+      <div class="logo-badge" id="logo-badge">
+        <div class="layer ring">
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ringgrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3fc9ff"/>
+      <stop offset="50%" stop-color="#3dffa0"/>
+      <stop offset="100%" stop-color="#3fc9ff"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="92" fill="none" stroke="url(#ringgrad2)" stroke-width="2.2" stroke-dasharray="8 7" opacity="0.85"/>
+  <circle cx="100" cy="100" r="78" fill="none" stroke="url(#ringgrad2)" stroke-width="1" opacity="0.4"/>
+  <g stroke="#3dffa0" stroke-width="2.4" stroke-linecap="round" opacity="0.9">
+    <line x1="100" y1="4" x2="100" y2="16"/>
+    <line x1="100" y1="184" x2="100" y2="196"/>
+    <line x1="4" y1="100" x2="16" y2="100"/>
+    <line x1="184" y1="100" x2="196" y2="100"/>
+  </g>
+</svg>
+
+        </div>
+        <div class="layer badge">
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="badgebg" cx="38%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#101820"/>
+      <stop offset="55%" stop-color="#0a1218"/>
+      <stop offset="100%" stop-color="#070c10"/>
+    </radialGradient>
+    <linearGradient id="nametxt" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3fc9ff"/>
+      <stop offset="100%" stop-color="#3dffa0"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="66" fill="url(#badgebg)" stroke="#1c2731" stroke-width="1"/>
+  <text x="100" y="96" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="30" fill="url(#nametxt)" letter-spacing="0.5">y2z3</text>
+  <line x1="68" y1="110" x2="132" y2="110" stroke="#ff5da2" stroke-width="1.4" opacity="0.7"/>
+  <text x="100" y="126" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="600" font-size="10" fill="#8aa0ad" letter-spacing="2">SOC · DFIR</text>
+
+  <!-- small badge accent, top-right -->
+  <g transform="translate(150,52)">
+    <circle cx="0" cy="0" r="17" fill="#0a0710" stroke="#ff5da2" stroke-width="2"/>
+    <path d="M0 -7 L6 4 L-6 4 Z" fill="none" stroke="#ff5da2" stroke-width="1.6" stroke-linejoin="round"/>
+    <circle cx="0" cy="2.5" r="0.9" fill="#ff5da2"/>
+  </g>
+</svg>
+
+        </div>
+      </div>
+    </div>
+
     <div class="hero-top">
       <span class="hero-tag"><span class="pulse"></span> open to SOC L1 opportunities</span>
       <span class="hero-loc">// Cybersecurity Student · Blue Team</span>
@@ -589,654 +691,23 @@
         <div class="eyebrow">writeups</div>
         <h2>Lab writeups</h2>
       </div>
-      <p>Full methodology, real commands, real screenshots — every question answered and explained, not just the flag.</p>
+      <p>Full methodology, real commands, real screenshots — grouped by platform. Click through to see every lab.</p>
     </div>
 
-    <div class="writeup-grid reveal">
-      <a class="writeup-card" href="redline-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="rlbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0d1a20"/>
-      <stop offset="100%" stop-color="#05080a"/>
-    </linearGradient>
-    <radialGradient id="rlglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#3fc9ff" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#3fc9ff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="rlglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#ff5da2" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#ff5da2" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="rltxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3fe0ff"/>
-      <stop offset="100%" stop-color="#ff5da2"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#rlbg)"/>
-  <rect width="1200" height="340" fill="url(#rlglow)"/>
-  <rect width="1200" height="340" fill="url(#rlglow2)"/>
-
-  <!-- chip / circuit watermark -->
-  <g opacity="0.14" stroke="#3fc9ff" stroke-width="2" fill="none">
-    <rect x="860" y="70" width="220" height="200" rx="14"/>
-    <rect x="900" y="110" width="140" height="120" rx="6"/>
-    <line x1="860" y1="110" x2="820" y2="110"/>
-    <line x1="860" y1="150" x2="820" y2="150"/>
-    <line x1="860" y1="190" x2="820" y2="190"/>
-    <line x1="860" y1="230" x2="820" y2="230"/>
-    <line x1="1080" y1="110" x2="1120" y2="110"/>
-    <line x1="1080" y1="150" x2="1120" y2="150"/>
-    <line x1="1080" y1="190" x2="1120" y2="190"/>
-    <line x1="1080" y1="230" x2="1120" y2="230"/>
-    <line x1="900" y1="70" x2="900" y2="40"/>
-    <line x1="940" y1="70" x2="940" y2="40"/>
-    <line x1="980" y1="70" x2="980" y2="40"/>
-    <line x1="1020" y1="70" x2="1020" y2="40"/>
-    <line x1="900" y1="270" x2="900" y2="300"/>
-    <line x1="940" y1="270" x2="940" y2="300"/>
-    <line x1="980" y1="270" x2="980" y2="300"/>
-    <line x1="1020" y1="270" x2="1020" y2="300"/>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#3fc9ff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#ff5da2" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#3fc9ff" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#3fc9ff">CYBERDEFENDERS · RETIRED</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="72" fill="url(#rltxt)" letter-spacing="-1">RedLine Lab</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Endpoint Forensics · Memory Analysis · Easy</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ vol -f MemoryDump.mem windows.malfind</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: Volatility 3 · Strings</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Endpoint Forensics · Easy</div>
-          <div class="writeup-title">RedLine Lab</div>
-          <div class="writeup-desc">Volatility memory forensics — process hollowing, a hidden Outline VPN tunnel bypassing NIDS, and full C2 attribution from a single memory image.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="t1110-003-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="t1bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#201509"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="t1glow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#ffb454" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#ffb454" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="t1glow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#b18aff" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#b18aff" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="t1txt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffb454"/>
-      <stop offset="100%" stop-color="#b18aff"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#t1bg)"/>
-  <rect width="1200" height="340" fill="url(#t1glow)"/>
-  <rect width="1200" height="340" fill="url(#t1glow2)"/>
-
-  <!-- login-attempt grid watermark: rows of key/lock dots, red = fail, green = success -->
-  <g opacity="0.9">
-    <g id="row-template"></g>
-    <!-- generate grid manually -->
-    <g transform="translate(860,60)">
-      <!-- 6 columns x 6 rows of small squares representing login attempts -->
-      <g font-family="JetBrains Mono, monospace">
-        <!-- row pattern -->
-      </g>
-      <g stroke-width="0" >
-        <!-- rows -->
-        <g>
-          <rect x="0" y="0" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="24" y="0" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="48" y="0" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="72" y="0" width="16" height="16" rx="3" fill="#3dffa0" opacity="0.7"/>
-          <rect x="96" y="0" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="120" y="0" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-
-          <rect x="0" y="24" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="24" y="24" width="16" height="16" rx="3" fill="#3dffa0" opacity="0.7"/>
-          <rect x="48" y="24" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="72" y="24" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="96" y="24" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="120" y="24" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-
-          <rect x="0" y="48" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="24" y="48" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="48" y="48" width="16" height="16" rx="3" fill="#3dffa0" opacity="0.7"/>
-          <rect x="72" y="48" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="96" y="48" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="120" y="48" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-
-          <rect x="0" y="72" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="24" y="72" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="48" y="72" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="72" y="72" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="96" y="72" width="16" height="16" rx="3" fill="#3dffa0" opacity="0.7"/>
-          <rect x="120" y="72" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-
-          <rect x="0" y="96" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="24" y="96" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="48" y="96" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="72" y="96" width="16" height="16" rx="3" fill="#3dffa0" opacity="0.7"/>
-          <rect x="96" y="96" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="120" y="96" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-
-          <rect x="0" y="120" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="24" y="120" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="48" y="120" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="72" y="120" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="96" y="120" width="16" height="16" rx="3" fill="#ff5da2" opacity="0.55"/>
-          <rect x="120" y="120" width="16" height="16" rx="3" fill="#3dffa0" opacity="0.7"/>
-        </g>
-      </g>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#ffb454" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#b18aff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#ffb454" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#ffb454">CYBERDEFENDERS · T1110.003</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="72" fill="url(#t1txt)" letter-spacing="-1">T1110-003</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Threat Hunting · Password Spraying · Easy</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">index="t1110-003" "event.code"=4625</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: Splunk · ELK</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Threat Hunting · Easy</div>
-          <div class="writeup-title">T1110-003</div>
-          <div class="writeup-desc">Splunk threat hunting for an RDP password-spray attack — timing the bruteforce window, identifying compromised accounts, and mapping detection to MITRE T1110.003.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="sysinternals-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="sybg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0f1a12"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="syglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#3dffa0" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#3dffa0" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="syglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#b18aff" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#b18aff" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="sytxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3dffa0"/>
-      <stop offset="100%" stop-color="#b18aff"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#sybg)"/>
-  <rect width="1200" height="340" fill="url(#syglow)"/>
-  <rect width="1200" height="340" fill="url(#syglow2)"/>
-
-  <!-- fake-app icon watermark: rounded app window with file glyph, warning badge overlay -->
-  <g opacity="0.85" transform="translate(880,60)">
-    <rect x="0" y="0" width="220" height="220" rx="34" fill="none" stroke="#3dffa0" stroke-width="2.4" opacity="0.35"/>
-    <g transform="translate(70,50)" opacity="0.32">
-      <path d="M0 0 H56 L80 24 V120 H0 Z" fill="none" stroke="#3dffa0" stroke-width="4" stroke-linejoin="round"/>
-      <path d="M56 0 V24 H80" fill="none" stroke="#3dffa0" stroke-width="4" stroke-linejoin="round"/>
-      <line x1="16" y1="52" x2="64" y2="52" stroke="#3dffa0" stroke-width="4" stroke-linecap="round"/>
-      <line x1="16" y1="72" x2="64" y2="72" stroke="#3dffa0" stroke-width="4" stroke-linecap="round"/>
-      <line x1="16" y1="92" x2="46" y2="92" stroke="#3dffa0" stroke-width="4" stroke-linecap="round"/>
-    </g>
-    <g transform="translate(150,150)">
-      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
-      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
-      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#3dffa0" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#b18aff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="240" height="30" rx="15" fill="none" stroke="#3dffa0" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#3dffa0">CYBERDEFENDERS · RETIRED</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="66" fill="url(#sytxt)" letter-spacing="-1">Sysinternals Lab</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Endpoint Forensics · Trojanized Software · Medium</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ AmcacheParser.exe -f Amcache.hve --csv .</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: Autopsy · AmcacheParser · VirusTotal</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Endpoint Forensics · Medium</div>
-          <div class="writeup-title">Sysinternals Lab</div>
-          <div class="writeup-desc">A trojanized SysInternals download traced through Amcache/AppCompatCache artifacts to a Rozena downloader, its C2 domain, and a fake Windows service used for persistence.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="grabthephisher-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="gtbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a1409"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="gtglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#ffb454" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#ffb454" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="gtglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#3fc9ff" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#3fc9ff" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="gttxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffb454"/>
-      <stop offset="100%" stop-color="#3fc9ff"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#gtbg)"/>
-  <rect width="1200" height="340" fill="url(#gtglow)"/>
-  <rect width="1200" height="340" fill="url(#gtglow2)"/>
-
-  <!-- wallet / seed-phrase watermark -->
-  <g opacity="0.85" transform="translate(880,70)">
-    <rect x="0" y="20" width="220" height="150" rx="18" fill="none" stroke="#ffb454" stroke-width="2.4" opacity="0.4"/>
-    <circle cx="185" cy="95" r="14" fill="none" stroke="#ffb454" stroke-width="2.4" opacity="0.4"/>
-    <g font-family="JetBrains Mono, monospace" font-size="12" fill="#ffb454" opacity="0.35">
-      <text x="22" y="55">seed</text>
-      <text x="22" y="75">phrase</text>
-      <text x="22" y="95">••• •••</text>
-      <text x="22" y="115">••• •••</text>
-    </g>
-    <g transform="translate(150,150)">
-      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
-      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
-      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#ffb454" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#3fc9ff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#ffb454" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#ffb454">CYBERDEFENDERS · RETIRED</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="58" fill="url(#gttxt)" letter-spacing="-1">GrabThePhisher</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Threat Intel · Crypto Wallet Phishing · Easy</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ cat metamask.php</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tool: text editor · exfil: telegram bot</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Threat Intel · Easy</div>
-          <div class="writeup-title">GrabThePhisher Lab</div>
-          <div class="writeup-desc">Source-level analysis of a live crypto wallet phishing kit — mapping its geolocation lookup, harvested seed phrases, and Telegram exfiltration channel back to the developer.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="phishstrike-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="pkbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0f1420"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="pkglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#3fc9ff" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#3fc9ff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="pkglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#ff5da2" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#ff5da2" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="pktxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3fc9ff"/>
-      <stop offset="100%" stop-color="#ff5da2"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#pkbg)"/>
-  <rect width="1200" height="340" fill="url(#pkglow)"/>
-  <rect width="1200" height="340" fill="url(#pkglow2)"/>
-
-  <!-- envelope + hook watermark -->
-  <g opacity="0.85" transform="translate(880,80)">
-    <rect x="0" y="0" width="220" height="150" rx="14" fill="none" stroke="#3fc9ff" stroke-width="2.4" opacity="0.4"/>
-    <path d="M4 8 L110 90 L216 8" fill="none" stroke="#3fc9ff" stroke-width="2.4" opacity="0.4"/>
-    <g transform="translate(150,120)">
-      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
-      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
-      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#3fc9ff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#ff5da2" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#3fc9ff" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#3fc9ff">CYBERDEFENDERS · RETIRED</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="64" fill="url(#pktxt)" letter-spacing="-1">PhishStrike</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Threat Intel · Email Header Analysis · Medium</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">spf=softfail  dkim=fail  C2: gh9st.mywire.org</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: URLhaus · VirusTotal · MalwareBazaar · VMRay</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Threat Intel · Medium</div>
-          <div class="writeup-title">PhishStrike Lab</div>
-          <div class="writeup-desc">A spoofed invoice email traced through a full malware delivery chain — CoinMiner, BitRAT, and AsyncRAT — down to their C2 domains and a Telegram exfil bot.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="poisonedcredentials-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="pcbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0a1a1c"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="pcglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#3dffa0" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#3dffa0" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="pcglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#3fc9ff" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#3fc9ff" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="pctxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3dffa0"/>
-      <stop offset="100%" stop-color="#3fc9ff"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#pcbg)"/>
-  <rect width="1200" height="340" fill="url(#pcglow)"/>
-  <rect width="1200" height="340" fill="url(#pcglow2)"/>
-
-  <!-- broadcast/poison watermark: radiating waves from a rogue node -->
-  <g opacity="0.85" transform="translate(990,175)">
-    <circle cx="0" cy="0" r="8" fill="none" stroke="#3fc9ff" stroke-width="3"/>
-    <circle cx="0" cy="0" r="34" fill="none" stroke="#3fc9ff" stroke-width="2" opacity="0.55"/>
-    <circle cx="0" cy="0" r="62" fill="none" stroke="#3fc9ff" stroke-width="2" opacity="0.35"/>
-    <circle cx="0" cy="0" r="90" fill="none" stroke="#3fc9ff" stroke-width="2" opacity="0.2"/>
-    <g transform="translate(0,-90)">
-      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
-      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
-      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#3dffa0" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#3fc9ff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#3dffa0" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#3dffa0">CYBERDEFENDERS · RETIRED</text>
-
-  <!-- title -->
-  <text x="62" y="178" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="46" fill="url(#pctxt)" letter-spacing="-1">PoisonedCredentials</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Network Forensics · LLMNR/NBT-NS Poisoning · Easy</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ llmnr and ip.src == 192.168.232.162</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tool: wireshark</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Network Forensics · Easy</div>
-          <div class="writeup-title">PoisonedCredentials Lab</div>
-          <div class="writeup-desc">LLMNR/NBT-NS poisoning traced purely from a packet capture — identifying the rogue host, every poisoned victim, and the NTLM account it compromised.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="psexec-hunt-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="pxbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a1420"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="pxglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#b18aff" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#b18aff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="pxglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#3fc9ff" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#3fc9ff" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="pxtxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#b18aff"/>
-      <stop offset="100%" stop-color="#3fc9ff"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#pxbg)"/>
-  <rect width="1200" height="340" fill="url(#pxglow)"/>
-  <rect width="1200" height="340" fill="url(#pxglow2)"/>
-
-  <!-- lateral movement watermark: three nodes chained with arrows -->
-  <g opacity="0.85" transform="translate(860,120)">
-    <circle cx="0" cy="60" r="20" fill="none" stroke="#b18aff" stroke-width="2.4" opacity="0.5"/>
-    <circle cx="110" cy="20" r="20" fill="none" stroke="#b18aff" stroke-width="2.4" opacity="0.5"/>
-    <circle cx="220" cy="70" r="20" fill="none" stroke="#b18aff" stroke-width="2.4" opacity="0.5"/>
-    <path d="M18 50 L94 26" stroke="#b18aff" stroke-width="2" opacity="0.45"/>
-    <path d="M128 28 L204 62" stroke="#b18aff" stroke-width="2" opacity="0.45"/>
-    <g transform="translate(110,20)">
-      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
-      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
-      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#b18aff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#3fc9ff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#b18aff" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#b18aff">CYBERDEFENDERS · RETIRED</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="60" fill="url(#pxtxt)" letter-spacing="-1">PsExec Hunt</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Network Forensics · Lateral Movement · Easy</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ smb2.tree contains PSEXESVC</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tool: wireshark</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Network Forensics · Easy</div>
-          <div class="writeup-title">PsExec Hunt Lab</div>
-          <div class="writeup-desc">Tracing PsExec lateral movement across two hosts in Wireshark — entry point, compromised credentials, service install, and the ADMIN$/IPC$ share chain.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="dragonfly-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="dfbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#101a14"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="dfglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#3dffa0" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#3dffa0" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="dfglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#ffb454" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#ffb454" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="dftxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3dffa0"/>
-      <stop offset="100%" stop-color="#ffb454"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#dfbg)"/>
-  <rect width="1200" height="340" fill="url(#dfglow)"/>
-  <rect width="1200" height="340" fill="url(#dfglow2)"/>
-
-  <!-- MSG/attachment watermark -->
-  <g opacity="0.85" transform="translate(880,70)">
-    <rect x="0" y="20" width="220" height="150" rx="14" fill="none" stroke="#3dffa0" stroke-width="2.4" opacity="0.4"/>
-    <path d="M4 28 L110 100 L216 28" fill="none" stroke="#3dffa0" stroke-width="2.4" opacity="0.4"/>
-    <rect x="26" y="120" width="60" height="34" rx="4" fill="none" stroke="#ffb454" stroke-width="2" opacity="0.5"/>
-    <text x="32" y="141" font-family="JetBrains Mono, monospace" font-size="11" fill="#ffb454" opacity="0.6">.msg</text>
-    <g transform="translate(150,150)">
-      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
-      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
-      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#3dffa0" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#ffb454" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#3dffa0" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#3dffa0">CYBERDEFENDERS · T1598.002</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="52" fill="url(#dftxt)" letter-spacing="-1">Dragonfly Lab</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Endpoint Forensics · Spearphishing for Info · Easy</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">$ oledump.py -p plugin_msg.py T1598.msg</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: oledump · outlookspy · cyberchef · python</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · T1598.002 · Easy</div>
-          <div class="writeup-title">T1598.002 Dragonfly Lab</div>
-          <div class="writeup-desc">A spearphishing MSG parsed with oledump — sender SPF analysis, a password-protected ZIP, and a malicious LNK-to-regsvr32 delivery chain.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-
-      <a class="writeup-card" href="yellowrat-lab/">
-        <div class="writeup-banner">
-<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="yrbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1c1a09"/>
-      <stop offset="100%" stop-color="#07050a"/>
-    </linearGradient>
-    <radialGradient id="yrglow" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#ffe14d" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#ffe14d" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="yrglow2" cx="85%" cy="80%" r="55%">
-      <stop offset="0%" stop-color="#ff5da2" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#ff5da2" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="yrtxt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffe14d"/>
-      <stop offset="100%" stop-color="#ff5da2"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="340" fill="url(#yrbg)"/>
-  <rect width="1200" height="340" fill="url(#yrglow)"/>
-  <rect width="1200" height="340" fill="url(#yrglow2)"/>
-
-  <!-- RAT / remote-access watermark: simple rodent-ish node graph (radar + tail) -->
-  <g opacity="0.85" transform="translate(950,150)">
-    <circle cx="0" cy="0" r="44" fill="none" stroke="#ffe14d" stroke-width="2.4" opacity="0.45"/>
-    <circle cx="-16" cy="-14" r="6" fill="none" stroke="#ffe14d" stroke-width="2" opacity="0.5"/>
-    <circle cx="16" cy="-14" r="6" fill="none" stroke="#ffe14d" stroke-width="2" opacity="0.5"/>
-    <path d="M-44 20 Q-70 40 -90 20" fill="none" stroke="#ffe14d" stroke-width="2.4" opacity="0.4"/>
-    <g transform="translate(0,90)">
-      <circle cx="0" cy="0" r="44" fill="#0a0710" stroke="#ff5da2" stroke-width="3"/>
-      <path d="M0 -18 L16 10 L-16 10 Z" fill="none" stroke="#ff5da2" stroke-width="2.6" stroke-linejoin="round"/>
-      <line x1="0" y1="-7" x2="0" y2="2" stroke="#ff5da2" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="0" cy="7" r="1.6" fill="#ff5da2"/>
-    </g>
-  </g>
-
-  <!-- corner brackets -->
-  <path d="M32 32 L32 66 M32 32 L66 32" stroke="#ffe14d" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M1168 308 L1168 274 M1168 308 L1134 308" stroke="#ff5da2" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- tag pill -->
-  <rect x="64" y="70" width="230" height="30" rx="15" fill="none" stroke="#ffe14d" stroke-width="1.4" opacity="0.85"/>
-  <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" letter-spacing="1.5" fill="#ffe14d">CYBERDEFENDERS · RETIRED</text>
-
-  <!-- title -->
-  <text x="62" y="185" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="66" fill="url(#yrtxt)" letter-spacing="-1">Yellow RAT</text>
-  <text x="65" y="220" font-family="JetBrains Mono, monospace" font-size="17" fill="#8aa0ad" letter-spacing="0.5">Threat Intel · Yellow Cockatoo RAT · Easy</text>
-
-  <!-- ghost terminal -->
-  <text x="65" y="270" font-family="JetBrains Mono, monospace" font-size="15" fill="#3dffa0" opacity="0.75">C2: https://gogohid[.]com/gate?q=ENCODED_HOST_INFO</text>
-  <text x="65" y="294" font-family="JetBrains Mono, monospace" font-size="13" fill="#5b7383">tools: VirusTotal · Red Canary</text>
-</svg>
-
-        </div>
-        <div class="writeup-body">
-          <div class="writeup-meta">CyberDefenders · Threat Intel · Easy</div>
-          <div class="writeup-title">Yellow RAT Lab</div>
-          <div class="writeup-desc">Pure threat-intel pivoting from a single hash to full attribution — Yellow Cockatoo RAT, its persistence artifact, and its C2 infrastructure.</div>
-          <div class="writeup-link">read writeup ↗</div>
-        </div>
-      </a>
-    </div>
+    <a class="platform-card reveal" href="cyberdefenders-labs/">
+      <div class="platform-badge">
+        <svg width="38" height="38" viewBox="0 0 44 44" fill="none">
+          <path d="M22 4 L38 11 V22 C38 31 31 37 22 40 C13 37 6 31 6 22 V11 Z" stroke="#3fc9ff" stroke-width="2" fill="rgba(63,201,255,0.06)"/>
+          <path d="M15 22 L20 27 L30 15" stroke="#3fc9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="platform-info">
+        <div class="platform-name">CyberDefenders</div>
+        <div class="platform-stat">9 labs completed</div>
+        <div class="platform-desc">Blue-team CTF challenges — memory forensics, network analysis, phishing kits, and threat intel, solved end-to-end and documented question by question.</div>
+      </div>
+      <div class="platform-cta">View all labs ↗</div>
+    </a>
   </section>
 
   <!-- TOOLS & STACK -->
@@ -1248,34 +719,47 @@
       </div>
     </div>
 
-    <div class="reveal">
-      <div class="tool-row">
-        <div class="tool-cat">SIEM · Log Analysis <span class="n">01</span></div>
-        <div class="tool-tags"><span class="tag">Splunk</span><span class="tag">SPL</span><span class="tag">KQL</span><span class="tag">Elastic</span></div>
+    <div class="tools-grid reveal">
+      <div class="tool-card" style="--accent:var(--cyan)">
+        <svg class="icon" viewBox="0 0 32 32" fill="none"><path d="M4 24 L11 14 L16 19 L28 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 27h24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/></svg>
+        <div class="cat-name">SIEM &amp; Log Analysis</div>
+        <div class="tags"><span class="tag">Splunk</span><span class="tag">SPL</span><span class="tag">KQL</span><span class="tag">Elastic</span></div>
       </div>
-      <div class="tool-row">
-        <div class="tool-cat">Network Forensics <span class="n">02</span></div>
-        <div class="tool-tags"><span class="tag">Wireshark</span><span class="tag">CyberChef</span></div>
+
+      <div class="tool-card" style="--accent:var(--green)">
+        <svg class="icon" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="2"/><path d="M16 4v6M16 22v6M4 16h6M22 16h6M7.5 7.5l4.2 4.2M20.3 20.3l4.2 4.2M24.5 7.5l-4.2 4.2M11.7 20.3l-4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/></svg>
+        <div class="cat-name">Network Forensics</div>
+        <div class="tags"><span class="tag">Wireshark</span><span class="tag">CyberChef</span></div>
       </div>
-      <div class="tool-row">
-        <div class="tool-cat">Memory Forensics <span class="n">03</span></div>
-        <div class="tool-tags"><span class="tag">Volatility</span><span class="tag">FTK Imager</span><span class="tag">Redline</span><span class="tag">Strings</span></div>
+
+      <div class="tool-card" style="--accent:var(--magenta)">
+        <svg class="icon" viewBox="0 0 32 32" fill="none"><rect x="9" y="9" width="14" height="14" rx="1.5" stroke="currentColor" stroke-width="2"/><path d="M13 9V4M19 9V4M13 28v-5M19 28v-5M9 13H4M9 19H4M28 13h-5M28 19h-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="cat-name">Memory Forensics</div>
+        <div class="tags"><span class="tag">Volatility</span><span class="tag">FTK Imager</span><span class="tag">Redline</span><span class="tag">Strings</span></div>
       </div>
-      <div class="tool-row">
-        <div class="tool-cat">Threat Intel · OSINT <span class="n">04</span></div>
-        <div class="tool-tags"><span class="tag">VirusTotal</span><span class="tag">Shodan</span><span class="tag">MITRE ATT&amp;CK</span><span class="tag">URLhaus</span><span class="tag">URLScan.io</span><span class="tag">MalwareBazaar</span><span class="tag">VMRay</span><span class="tag">Email Header Analyzer</span><span class="tag">Red Canary</span></div>
+
+      <div class="tool-card" style="--accent:var(--amber)">
+        <svg class="icon" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="1.6" fill="currentColor"/><path d="M16 16 L23 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="cat-name">Threat Intel &amp; OSINT</div>
+        <div class="tags"><span class="tag">VirusTotal</span><span class="tag">Shodan</span><span class="tag">MITRE ATT&amp;CK</span><span class="tag">URLhaus</span><span class="tag">URLScan.io</span><span class="tag">MalwareBazaar</span><span class="tag">VMRay</span><span class="tag">Email Header Analyzer</span><span class="tag">Red Canary</span></div>
       </div>
-      <div class="tool-row">
-        <div class="tool-cat">Disk Analysis <span class="n">05</span></div>
-        <div class="tool-tags"><span class="tag">Autopsy</span><span class="tag">Web Cache View</span></div>
+
+      <div class="tool-card" style="--accent:var(--purple)">
+        <svg class="icon" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="8" rx="10" ry="4" stroke="currentColor" stroke-width="2"/><path d="M6 8v16c0 2.2 4.5 4 10 4s10-1.8 10-4V8" stroke="currentColor" stroke-width="2"/><path d="M6 16c0 2.2 4.5 4 10 4s10-1.8 10-4" stroke="currentColor" stroke-width="2"/></svg>
+        <div class="cat-name">Disk Analysis</div>
+        <div class="tags"><span class="tag">Autopsy</span><span class="tag">Web Cache View</span></div>
       </div>
-      <div class="tool-row">
-        <div class="tool-cat">Registry &amp; Artifact Analysis <span class="n">06</span></div>
-        <div class="tool-tags"><span class="tag">Registry Explorer</span><span class="tag">Event Log Explorer</span><span class="tag">AppCompatCacheParser</span></div>
+
+      <div class="tool-card" style="--accent:var(--cyan)">
+        <svg class="icon" viewBox="0 0 32 32" fill="none"><circle cx="11" cy="21" r="5" stroke="currentColor" stroke-width="2"/><path d="M14.5 17.5 L26 6M26 6h-5M26 6v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="cat-name">Registry &amp; Artifact Analysis</div>
+        <div class="tags"><span class="tag">Registry Explorer</span><span class="tag">Event Log Explorer</span><span class="tag">AppCompatCacheParser</span></div>
       </div>
-      <div class="tool-row">
-        <div class="tool-cat">Email Forensics <span class="n">07</span></div>
-        <div class="tool-tags"><span class="tag">Oledump</span><span class="tag">OutlookSpy</span><span class="tag">Email Header Analyzer</span></div>
+
+      <div class="tool-card" style="--accent:var(--magenta)">
+        <svg class="icon" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="17" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 9.5 L16 19 L28 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="cat-name">Email Forensics</div>
+        <div class="tags"><span class="tag">Oledump</span><span class="tag">OutlookSpy</span><span class="tag">Email Header Analyzer</span></div>
       </div>
     </div>
   </section>
@@ -1363,6 +847,24 @@
   } else {
     runTerminal();
   }
+
+  // logo badge: subtle 3D tilt on top of its continuous float/spin animation
+  (function(){
+    var stage = document.getElementById('logo-stage');
+    var badge = document.getElementById('logo-badge');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion || !stage || !badge) return;
+    var maxTilt = 12;
+    stage.addEventListener('mousemove', function(e){
+      var rect = stage.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width - 0.5;
+      var py = (e.clientY - rect.top) / rect.height - 0.5;
+      badge.style.transform = 'rotateX(' + (-py * maxTilt).toFixed(2) + 'deg) rotateY(' + (px * maxTilt).toFixed(2) + 'deg)';
+    });
+    stage.addEventListener('mouseleave', function(){
+      badge.style.transform = '';
+    });
+  })();
 </script>
 </body>
 </html>
