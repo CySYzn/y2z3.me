@@ -441,6 +441,23 @@
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
   }
+
+  /* ===== interactive terminal ===== */
+  .t-body{height:340px; overflow-y:auto; padding:22px 26px; cursor:text; font-size:14px; line-height:1.65;}
+  .t-body .term-out{opacity:1; margin:4px 0 12px;}
+  .t-line{white-space:pre-wrap; word-break:break-word; color:var(--text);}
+  .t-line.dim{color:var(--text-dim);}
+  .t-line.err{color:var(--magenta);}
+  .t-line a{color:var(--cyan); border-bottom:1px dashed rgba(63,201,255,.4);}
+  .t-line a:hover{color:var(--green); border-color:var(--green);}
+  .t-row{display:flex; gap:.6ch; align-items:center;}
+  .t-input{flex:1; min-width:0; background:none; border:0; outline:0; color:var(--cyan);
+    font:inherit; caret-color:var(--green);}
+  .t-chips{display:flex; flex-wrap:wrap; gap:8px; padding:12px 18px 16px; border-top:1px solid var(--line-soft);}
+  .t-chips button{background:none; border:1px solid var(--line); border-radius:6px; color:var(--text-dim);
+    font:inherit; font-size:12px; padding:4px 10px; cursor:pointer; transition:color .15s, border-color .15s;}
+  .t-chips button:hover, .t-chips button:focus-visible{color:var(--green); border-color:var(--green); outline:0;}
+  @media (max-width:560px){ .t-body{padding:16px; height:300px; font-size:13px;} }
 </style>
 </head>
 <body>
@@ -524,34 +541,14 @@
       <span class="hero-loc">// Cybersecurity Student · Blue Team</span>
     </div>
 
-      <div class="terminal reveal">
+      <div class="terminal reveal" id="term" aria-label="Interactive terminal">
         <div class="term-bar">
           <span></span><span></span><span></span>
           <span class="term-title">y2z3@sec — zsh — 80×24</span>
         </div>
-        <div class="term-body">
-          <div class="term-line">
-            <span class="prompt">$</span> <span class="prompt-cmd" data-cmd="whoami"></span>
-            <div class="term-out">
-              <div class="name">Yazan Abu Mahmoud</div>
-              <div class="handle"><span class="nick">y2z3</span><span class="full">// cybersecurity handle</span></div>
-            </div>
-          </div>
-          <div class="term-line">
-            <span class="prompt">$</span> <span class="prompt-cmd" data-cmd="cat ~/role.txt"></span>
-            <div class="term-out"><div class="role">Cybersecurity Student <b>|</b> SOC Analyst <b>|</b> DFIR</div></div>
-          </div>
-          <div class="term-line">
-            <span class="prompt">$</span> <span class="prompt-cmd" data-cmd="cat ~/focus.txt"></span>
-            <div class="term-out"><div class="focus">Blue Team <em>·</em> SOC Operations <em>·</em> Digital Forensics <em>·</em> Incident Response</div></div>
-          </div>
-          <div class="term-line">
-            <span class="prompt">$</span> <span class="prompt-cmd" data-cmd="cat ~/rank.txt"></span>
-            <div class="term-out"><div class="focus">TryHackMe — Rank #65,308 (Top 3%) · 115 rooms · 25 badges<span class="cursor"></span></div></div>
-          </div>
-        </div>
+        <div class="term-body t-body" id="t-out" aria-live="polite"></div>
+        <div class="t-chips" id="t-chips"></div>
       </div>
-
 
     <div class="stat-row reveal">
       <div class="stat"><div class="num c1">Top 3%</div><div class="lbl">TryHackMe global rank</div></div>
@@ -844,61 +841,147 @@
   }, {threshold:0.12});
   els.forEach(el=>io.observe(el));
 
-  // ---- hero terminal: sequential typing effect ----
-  const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
+  // ---- hero terminal: interactive shell ----
+  (function(){
+    const out = document.getElementById('t-out');
+    const chips = document.getElementById('t-chips');
+    if(!out || !chips) return;
 
-  async function runTerminal(){
-    const lines = document.querySelectorAll('.terminal .term-line');
-    if(!lines.length) return;
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const LINKS = {
+      linkedin: 'https://www.linkedin.com/in/yazan-abu-mahmoud-6b0716350/',
+      github: 'https://github.com/CySYzn',
+      tryhackme: 'https://tryhackme.com/p/1Yzn'
+    };
+    const PROJECTS = {
+      'suricata-wazuh-ids-lab': 'Network IDS lab (Suricata + Wazuh), validated against a live vsftpd 2.3.4 backdoor exploit on Metasploitable2.',
+      'wazuh-rdp-bruteforce-detection': 'Host-based detection (Wazuh + Sysmon) of a live Hydra RDP brute-force attack on a Windows 10 endpoint.',
+      'phishing-email-forensics-lab': 'Header/routing analysis, SPF/DKIM/DMARC checks and malicious-PDF triage with pdfid and pdf-parser.',
+      'PCAP-Security-Analyzer': 'Python tool (PyShark + Matplotlib) that flags suspicious IPs and port scans in PCAP/PCAPNG files.'
+    };
+    const FILES = {
+      'role.txt': 'Cybersecurity Student | SOC Analyst | DFIR',
+      'focus.txt': 'Blue Team · SOC Operations · Digital Forensics · Incident Response',
+      'rank.txt': 'TryHackMe — Rank #65,308 (Top 3%) · 115 rooms · 25 badges',
+      'certs.txt': 'CCDL1 — CyberDefenders (Jul 2026)\nSecurity+ SY0-701 — CompTIA (Oct 2025)\neCIR — INE Security (Sep 2026)\neCDFP — INE Security (Sep 2026)\nPre Security + SOC Level 1 — TryHackMe',
+      'stack.txt': 'SIEM: Splunk SPL, KQL, Elastic\nNetwork: Wireshark, CyberChef\nMemory: Volatility, FTK Imager, Redline, Strings\nDisk: Autopsy, Registry Explorer, Event Log Explorer\nIntel: VirusTotal, Shodan, MITRE ATT&CK, URLhaus, URLScan.io, MalwareBazaar',
+      'achievements.txt': 'TryHackMe: top 3% global rank\nAAUCTFv1: 2nd place\nTryHackMe paths: Pre Security, SOC Level 1 (73+ hours)'
+    };
+    const ROOT = ['role.txt','focus.txt','rank.txt','certs.txt','stack.txt','achievements.txt','linkedin','github','tryhackme','projects/'];
+    const history = []; let hi = 0;
 
-    if(reduceMotion){
-      lines.forEach(line=>{
-        const cmdEl = line.querySelector('.prompt-cmd');
-        const outEl = line.querySelector('.term-out');
-        if(cmdEl) cmdEl.textContent = cmdEl.dataset.cmd || cmdEl.textContent;
-        line.classList.add('is-visible');
-        if(outEl) outEl.classList.add('is-visible');
-      });
-      return;
-    }
+    const scroll = () => { out.scrollTop = out.scrollHeight; };
+    const line = (text, cls) => {
+      const d = document.createElement('div');
+      d.className = 't-line' + (cls ? ' ' + cls : '');
+      d.textContent = text; out.appendChild(d); return d;
+    };
+    const link = (label, url) => {
+      const d = document.createElement('div'); d.className = 't-line';
+      const a = document.createElement('a');
+      a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = url;
+      d.append(label ? label + ' ' : '', a); out.appendChild(d);
+    };
+    const whoami = () => {
+      const w = document.createElement('div'); w.className = 'term-out is-visible';
+      const n = document.createElement('div'); n.className = 'name'; n.textContent = 'Yazan Abu Mahmoud';
+      const h = document.createElement('div'); h.className = 'handle';
+      const a = document.createElement('span'); a.className = 'nick'; a.textContent = 'y2z3';
+      const b = document.createElement('span'); b.className = 'full'; b.textContent = '// cybersecurity handle';
+      h.append(a, b); w.append(n, h); out.appendChild(w);
+      line('Cybersecurity Student | SOC Analyst | DFIR');
+    };
 
-    await sleep(400);
-
-    for(const line of lines){
-      const cmdEl = line.querySelector('.prompt-cmd');
-      const outEl = line.querySelector('.term-out');
-      const full = cmdEl ? (cmdEl.dataset.cmd || '') : '';
-
-      line.classList.add('is-visible');
-      if(cmdEl){
-        cmdEl.textContent = '';
-        const caret = document.createElement('span');
-        caret.className = 'type-caret';
-        cmdEl.after(caret);
-
-        await sleep(120);
-        for(let i=0;i<full.length;i++){
-          cmdEl.textContent += full[i];
-          await sleep(26 + Math.random()*40);
+    const commands = {
+      help(){ line('Commands:\n  whoami            who am I\n  ls [projects]     list files or projects\n  cat <file>        e.g. cat role.txt, cat linkedin, cat github\n  cat projects/<name>\n  open <linkedin|github|tryhackme>\n  history           your previous commands\n  clear             clear the screen  (Ctrl+L)'); },
+      whoami,
+      ls(args){
+        const t = (args[0] || '').replace(/\/$/, '');
+        if(!t) return line(ROOT.join('   '));
+        if(t === 'projects') return line(Object.keys(PROJECTS).join('\n'));
+        line("ls: cannot access '" + t + "': No such file or directory", 'err');
+      },
+      cat(args){
+        const t = args[0];
+        if(!t) return line('cat: missing file (try: cat role.txt)', 'err');
+        const name = t.replace(/^~\//, '');
+        if(LINKS[name]) return link(name + ':', LINKS[name]);
+        if(FILES[name]) return line(FILES[name]);
+        if(name.indexOf('projects/') === 0){
+          const p = name.slice(9);
+          if(PROJECTS[p]){ line(PROJECTS[p]); return link('repo:', LINKS.github + '/' + p); }
         }
-        await sleep(200);
-        caret.remove();
-      }
+        if(name === 'projects' || name === 'projects/') return line('cat: ' + t + ': Is a directory (try: ls projects)', 'err');
+        line('cat: ' + t + ': No such file or directory', 'err');
+      },
+      open(args){
+        const t = args[0];
+        if(!Object.prototype.hasOwnProperty.call(LINKS, t)) return line('usage: open <linkedin|github|tryhackme>', 'err');
+        window.open(LINKS[t], '_blank', 'noopener'); line('opening ' + t + '...', 'dim');
+      },
+      history(){ history.forEach((h, i) => line(' ' + (i + 1) + '  ' + h, 'dim')); },
+      clear(){ out.textContent = ''; },
+      pwd(){ line('/home/y2z3'); },
+      sudo(){ line('y2z3 is not in the sudoers file. This incident will be reported.', 'err'); },
+      exit(){ line("nice try. you can't leave the SOC that easily.", 'dim'); }
+    };
 
-      if(outEl){
-        await sleep(120);
-        outEl.classList.add('is-visible');
-      }
-      await sleep(380);
+    function run(raw){
+      const parts = raw.trim().split(/\s+/);
+      const cmd = parts[0], args = parts.slice(1);
+      if(!cmd) return;
+      history.push(raw.trim()); hi = history.length;
+      if(Object.prototype.hasOwnProperty.call(commands, cmd)) commands[cmd](args);
+      else line('zsh: command not found: ' + cmd + "  (type 'help')", 'err');
     }
-  }
 
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', runTerminal);
-  } else {
-    runTerminal();
-  }
+    function prompt(){
+      const row = document.createElement('div'); row.className = 't-row';
+      const p = document.createElement('span'); p.className = 'prompt'; p.textContent = 'y2z3@sec:~$';
+      const inp = document.createElement('input');
+      inp.className = 't-input'; inp.type = 'text'; inp.autocomplete = 'off'; inp.spellcheck = false;
+      inp.setAttribute('autocapitalize', 'off'); inp.setAttribute('aria-label', 'terminal command');
+      row.append(p, inp); out.appendChild(row); scroll();
+
+      inp.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){
+          const v = inp.value;
+          row.textContent = '';
+          const p2 = document.createElement('span'); p2.className = 'prompt'; p2.textContent = 'y2z3@sec:~$';
+          const c = document.createElement('span'); c.className = 'prompt-cmd'; c.textContent = ' ' + v;
+          row.append(p2, c);
+          run(v); prompt();
+        } else if(e.key === 'ArrowUp'){ e.preventDefault(); if(hi > 0) inp.value = history[--hi]; }
+        else if(e.key === 'ArrowDown'){ e.preventDefault(); if(hi < history.length - 1){ inp.value = history[++hi]; } else { hi = history.length; inp.value = ''; } }
+        else if(e.key === 'Tab'){
+          e.preventDefault();
+          const parts = inp.value.split(' '), last = parts.pop();
+          const pool = parts.length
+            ? Object.keys(FILES).concat(Object.keys(LINKS), ['projects/'], Object.keys(PROJECTS).map(n => 'projects/' + n))
+            : Object.keys(commands);
+          const m = pool.filter(x => x.indexOf(last) === 0);
+          if(m.length === 1) inp.value = parts.concat(m[0]).join(' ');
+        } else if(e.key === 'l' && e.ctrlKey){ e.preventDefault(); commands.clear(); }
+      });
+      inp.focus({preventScroll: true});
+    }
+
+    ['whoami','ls','cat role.txt','cat linkedin','cat github','ls projects','help'].forEach(function(c){
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = c;
+      b.addEventListener('click', function(){
+        const inp = out.querySelector('.t-input'); if(!inp) return;
+        inp.value = c; inp.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+      });
+      chips.appendChild(b);
+    });
+    out.addEventListener('click', function(){
+      const i = out.querySelector('.t-input');
+      if(i && !String(window.getSelection()).length) i.focus({preventScroll: true});
+    });
+
+    line("y2z3 // cybersecurity handle", 'dim');
+    line("Type 'help' to see commands, or tap one below.", 'dim');
+    prompt();
+  })();
 
   // logo badge: subtle 3D tilt on top of its continuous float/spin animation
   (function(){
