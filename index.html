@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yazan Abu Mahmoud // SOC Analyst &amp; DFIR</title>
-<meta name="description" content="Yazan Abu Mahmoud — Cybersecurity Student, SOC Analyst, DFIR. CCDL1 · Security+ · TryHackMe Top 3%.">
+<meta name="description" content="Yazan Abu Mahmoud — Cybersecurity Student, SOC Analyst, DFIR. CCDL1 · Security+ · TryHackMe Top 2%.">
 <link rel="canonical" href="https://y2z3.me/">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://y2z3.me/">
 <meta property="og:title" content="y2z3 // Yazan Abu Mahmoud — SOC Analyst &amp; DFIR">
-<meta property="og:description" content="Cybersecurity student building real, documented blue-team experience — SIEM triage, network &amp; memory forensics, and incident response labs. CCDL1 · Security+ · TryHackMe Top 3%.">
+<meta property="og:description" content="Cybersecurity student building real, documented blue-team experience — SIEM triage, network &amp; memory forensics, and incident response labs. CCDL1 · Security+ · TryHackMe Top 2%.">
 <meta property="og:image" content="https://y2z3.me/og-image.png">
 
 <meta name="twitter:card" content="summary_large_image">
@@ -360,6 +360,106 @@
   }
   .proj-link{font-size:12px; color:var(--green); font-weight:600; display:inline-flex; align-items:center; gap:6px;}
 
+
+/* ===== VISUAL SOC REPLAY 2.0 — SCENARIO TOPOLOGY ===== */
+.proj-card{cursor:pointer;position:relative;outline:none;transition:border-color .2s,transform .2s,box-shadow .2s}
+.proj-card:hover{border-color:rgba(61,255,160,.52);transform:translateY(-3px);box-shadow:0 12px 45px rgba(3,27,24,.24)}
+.proj-card:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+.proj-replay-hint{font-size:11px;color:var(--cyan);display:flex;align-items:center;gap:9px;letter-spacing:.02em}
+.proj-replay-hint::before{content:'▶';display:grid;place-items:center;border:1px solid var(--green);width:22px;height:22px;border-radius:50%;font-size:8px;color:var(--green)}
+/* Background FX: subtle, behind all content, never catches pointer events. */
+#ambientLightning{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.74}
+.ambient-toggle{position:fixed;bottom:18px;right:18px;z-index:48;border:1px solid #31545b;border-radius:30px;padding:7px 12px;background:rgba(7,16,24,.86);color:#89b2b7;font:10px var(--mono);cursor:pointer;backdrop-filter:blur(8px)}
+.ambient-toggle:hover,.ambient-toggle:focus-visible{color:var(--green);border-color:var(--green)}
+/* Full-screen interactive lab */
+.replay-backdrop{position:fixed;inset:0;z-index:300;background:rgba(1,7,12,.94);backdrop-filter:blur(15px);display:none;align-items:center;justify-content:center;padding:15px}
+.replay-backdrop.open{display:flex}
+body.replay-open{overflow:hidden}
+.replay-window{padding:0;width:min(1550px,100%);height:96dvh;max-height:96dvh;border:1px solid #294452;border-radius:15px;background:#09121a;box-shadow:0 24px 120px #000b;overflow:hidden;display:flex;flex-direction:column;min-height:0;position:relative}
+.replay-top{position:static;z-index:auto;flex:none;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px 20px;background:#101c27;border-bottom:1px solid #243542}
+.replay-top-left{display:flex;align-items:center;gap:14px;min-width:0}
+.replay-brandmark{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:10px;border:1px solid #2a5c57;background:#0e2b29;color:#3dffa0;font-size:19px}
+.replay-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--green);font-weight:700}
+.replay-title{font:700 clamp(17px,1.65vw,23px)/1.2 var(--disp);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.replay-top-actions{display:flex;align-items:center;gap:9px;flex:none}
+.replay-button{font:600 11px var(--mono);border:1px solid #31505e;background:#13222d;color:#d0dee6;padding:9px 12px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.replay-button:hover:not(:disabled),.replay-button:focus-visible{border-color:var(--green);color:var(--green)}
+.replay-button:focus-visible,.replay-step-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.replay-button:disabled{opacity:.28;cursor:not-allowed}
+.replay-button.primary{background:var(--green);color:#052015;border-color:var(--green)}
+.replay-button.primary:hover:not(:disabled){background:#96ffc8;color:#001509}
+.replay-close{font-size:20px;width:38px;padding:6px 9px}
+.replay-intro{flex:none;padding:10px 20px;border-bottom:1px solid #1b303b;background:#0b151c;font-size:11px;color:#93a8b5;line-height:1.6}
+.replay-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border:1px solid #435b64;border-radius:4px;color:#b7cbd1;margin-right:9px;font-size:9px;font-weight:700;letter-spacing:.065em}
+.replay-progress{flex:none;background:#112630;height:4px}
+.replay-progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .32s}
+.replay-body{display:grid;grid-template-columns:230px minmax(0,1fr) minmax(275px,315px);min-height:0;flex:1}
+.replay-timeline{min-height:0;display:flex;flex-direction:column;background:#0b151e;border-right:1px solid #1c3441}
+.replay-timeline-head{flex:none;padding:17px 15px 12px;border-bottom:1px solid #1b303b}
+.replay-mini-heading{color:#5b9aa2;font:700 10px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.replay-timeline-title{font:700 17px var(--disp);margin:5px 0}
+.replay-timeline-list{overflow-y:auto;padding:8px;scrollbar-color:#29434e transparent;scrollbar-width:thin}
+.replay-step-btn{display:flex;width:100%;text-align:left;align-items:flex-start;gap:10px;border:1px solid transparent;border-radius:7px;background:transparent;color:#8ca4b4;padding:10px 8px;margin:2px 0;cursor:pointer;font:11px/1.45 var(--mono)}
+.replay-step-btn:hover{background:#132630;color:#e3f1f4}
+.replay-step-btn.active{background:#112a2a;border-color:#25675b;color:var(--green)}
+.replay-step-index{flex:none;font:700 11px var(--mono);color:#527480;margin-top:1px}
+.replay-step-btn.active .replay-step-index{color:var(--green)}
+.replay-step-copy{min-width:0}
+.replay-step-copy strong{display:block;font:600 11.5px/1.45 var(--mono);color:inherit}
+.replay-step-copy small{display:block;color:#607986;font:9px/1.5 var(--mono);margin-top:4px;letter-spacing:.045em;text-transform:uppercase}
+.replay-step-btn.active .replay-step-copy small{color:#7dd4bc}
+.replay-main{display:flex;min-height:0;flex-direction:column;overflow-y:auto;scrollbar-color:#29434e transparent;scrollbar-width:thin;min-width:0}
+.replay-topology-bar{display:flex;align-items:center;justify-content:space-between;padding:13px 17px 0;gap:8px}
+.replay-topology-meta{color:#6b8795;font:10px var(--mono)}
+.replay-topology{flex:0 0 auto;position:relative;margin:10px 15px 0;border:1px solid #274452;border-radius:10px;overflow:hidden;background:radial-gradient(ellipse at 55% 0%,#0f2935 0%,#091620 50%,#071018 100%);min-height:226px}
+.replay-topology svg{display:block;width:100%;height:auto;max-height:315px;min-height:225px}
+.replay-topology .topo-node{transition:opacity .2s}
+.replay-topology .topo-node.active .node-backdrop{stroke:#3dffa0;stroke-width:2.2;fill:#12382f;filter:drop-shadow(0 0 10px #3dffa035)}
+.replay-topology .topo-node.destination .node-backdrop{stroke:#3fc9ff;stroke-width:2.2;fill:#123043}
+.replay-topology .topo-node.attacker.active .node-backdrop{stroke:#ff5da2;fill:#351a2b}
+.replay-topology .topo-node.inactive{opacity:.5}
+.replay-topology text{font-family:var(--mono)}
+.replay-wire-current{stroke-dasharray:11 17;animation:wireTravel 1.35s linear infinite;filter:drop-shadow(0 0 5px currentColor)}
+@keyframes wireTravel{to{stroke-dashoffset:-56}}
+.replay-network-state{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:0 15px 12px;padding:9px 10px;background:#0b1d27;border:1px solid #1d3947;border-top:0;border-radius:0 0 8px 8px;font:10px var(--mono);color:#b4d9dc}
+.replay-net-label{font-size:9px;color:#608893;text-transform:uppercase;letter-spacing:.06em}
+.replay-network-state span:not(.replay-net-label){color:var(--green)}
+.replay-screen{flex:0 0 auto;margin:0 15px 15px;min-height:190px;border:1px solid #233a49;border-radius:10px;overflow:hidden;background:#050d14;display:flex;flex-direction:column}
+.replay-screen-top{display:flex;align-items:center;gap:7px;padding:10px 13px;background:#111f2a;border-bottom:1px solid #223844;color:#aac5ce;font:10px var(--mono)}
+.replay-screen-dot{width:8px;height:8px;border-radius:50%;background:#ff7474}
+.replay-screen-dot:nth-child(2){background:#ffc267}.replay-screen-dot:nth-child(3){background:#4df79d;margin-right:9px}
+.replay-screen-mode{margin-left:auto;color:#6d9ca6;border:1px solid #274958;padding:1px 6px;border-radius:4px;font-size:9px}
+.replay-screen-content{padding:14px 17px;overflow-wrap:anywhere;font:11px/1.7 var(--mono);color:#bfd4dc;flex:1}
+.replay-screen-content .sr-line{white-space:pre-wrap;border-bottom:1px solid rgba(255,255,255,.025);padding:2px 0}
+.replay-screen-content .sr-line.alert{color:#ff759f}.replay-screen-content .sr-line.ok{color:#76ffc4}.replay-screen-content .sr-line.key{color:#75d7ff}.replay-screen-content .sr-line.warn{color:#ffc479}
+.replay-screen-content .sr-line.dim{color:#6c8998}
+.replay-os-bar{margin:-14px -17px 12px;background:#173c56;color:#e2f1fa;padding:7px 14px;font:600 11px var(--disp)}
+.replay-wazuh-bar{margin:-14px -17px 12px;background:#192540;color:#dad8ff;padding:7px 14px;font:600 11px var(--disp)}
+.replay-mail-bar{margin:-14px -17px 12px;background:#164353;color:#e2f1fa;padding:7px 14px;font:600 11px var(--disp)}
+.replay-screen-note{font:9px var(--mono);color:#5d8494;margin-top:10px}
+.replay-inspector{min-height:0;overflow-y:auto;scrollbar-color:#29434e transparent;scrollbar-width:thin;padding:18px;background:#0d1821;border-left:1px solid #213440}
+.replay-step-count{font:700 11px var(--mono);letter-spacing:.1em;color:var(--cyan);margin-bottom:8px}
+.replay-step-title{font:700 clamp(19px,1.7vw,23px)/1.35 var(--disp);margin-bottom:13px;color:#ecf9ff}
+.replay-explain{font:12px/1.85 var(--mono);color:#a0b6c3;margin-bottom:17px}
+.replay-block{border-top:1px solid #243643;padding:13px 0}
+.replay-detail-label{font:700 9px var(--mono);text-transform:uppercase;letter-spacing:.14em;color:#72bcc1;margin-bottom:8px}
+.replay-block p{font:11px/1.75 var(--mono);color:#c5d8df}
+.replay-block .analyst-tip{border-left:2px solid #3dffa0;padding-left:10px;color:#b3edcc}
+.replay-block .step-observed{border-left:2px solid var(--cyan);padding:9px 10px;background:#0c2732;color:#a6dcf3;border-radius:4px}
+.replay-evidence-status{display:inline-flex;align-items:center;gap:7px;font:9px var(--mono);color:#f1c681;background:rgba(255,185,75,.07);border:1px solid #6c4d2c;border-radius:5px;padding:6px 8px;margin:8px 0 2px}
+.replay-evidence-status.documented{color:#9bffd0;background:#0f3028;border-color:#2c6e55}
+.replay-tactic{margin:10px 0;border:1px solid #243e49;border-radius:6px;padding:8px 10px;font:10px var(--mono);color:#a2c1ce}
+.replay-bottom{flex:none;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:13px 18px;background:#101d28;border-top:1px solid #243b47}
+.replay-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.replay-speed{display:flex;align-items:center;gap:5px;color:#7b9ba8;font:10px var(--mono)}
+.replay-speed select{border:1px solid #33515d;border-radius:6px;color:#c4dce3;background:#132530;font:11px var(--mono);padding:7px;cursor:pointer}
+.replay-github{color:var(--cyan);font:700 12px var(--mono)}
+.replay-github:hover{text-decoration:underline}
+@media(max-width:1130px){.replay-body{grid-template-columns:175px minmax(0,1fr) 270px}.replay-inspector{padding:13px}.replay-timeline-head{padding:12px 10px}.replay-step-btn{padding:8px 6px}}
+@media(max-width:850px){.replay-backdrop{padding:5px}.replay-window{max-height:99dvh;border-radius:8px}.replay-body{grid-template-columns:170px minmax(0,1fr);overflow:auto}.replay-timeline{min-height:0}.replay-main{overflow:visible}.replay-inspector{grid-column:2;border-left:0;border-top:1px solid #253845;overflow:visible}.replay-top{padding:9px 12px}.replay-intro{padding:8px 12px}.replay-title{font-size:16px}.replay-brandmark{display:none}.replay-bottom{padding:10px 12px}}
+@media(max-width:540px){.replay-body{display:flex;flex-direction:column;overflow:auto}.replay-timeline{flex:none;max-height:145px;border-right:0;border-bottom:1px solid #213a45}.replay-timeline-head{padding:8px 12px}.replay-timeline-title{font-size:13px}.replay-timeline-list{display:flex;overflow:auto;padding:6px;gap:5px}.replay-step-btn{flex:none;width:160px}.replay-main{flex:none}.replay-inspector{flex:none;padding:15px}.replay-topology{margin:8px 8px 0}.replay-topology{overflow-x:auto}.replay-topology svg{min-width:640px;min-height:312px;max-height:312px}.replay-network-state{margin:0 8px 10px}.replay-screen{margin:0 8px 10px;min-height:165px}.replay-bottom{gap:8px}.replay-button{padding:8px 9px;font-size:10px}.replay-github{font-size:10px}.replay-top-actions .replay-button:not(.replay-close){display:none}.ambient-toggle{bottom:12px;right:12px}}
+@media(prefers-reduced-motion:reduce){.replay-wire-current{animation:none}.proj-card{transition:none}.replay-progress-fill{transition:none}#ambientLightning{display:none}}
+
   /* ===== TOOLS ===== */
   .tool-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px 40px;}
   @media (max-width:700px){ .tool-grid{grid-template-columns:1fr;} }
@@ -462,6 +562,8 @@
 </head>
 <body>
 <div class="grid-tex"></div>
+<canvas id="ambientLightning" aria-hidden="true"></canvas>
+<button type="button" id="ambientToggle" class="ambient-toggle" aria-label="Toggle animated ambient lightning">⚡ Ambient FX · on</button>
 
 <header>
   <nav>
@@ -551,9 +653,9 @@
       </div>
 
     <div class="stat-row reveal">
-      <div class="stat"><div class="num c1">Top 3%</div><div class="lbl">TryHackMe global rank</div></div>
-      <div class="stat"><div class="num c2">115</div><div class="lbl">Rooms completed</div></div>
-      <div class="stat"><div class="num c3">25</div><div class="lbl">TryHackMe badges</div></div>
+      <div class="stat"><div class="num c1">Top 2%</div><div class="lbl">TryHackMe global rank</div></div>
+      <div class="stat"><div class="num c2">130</div><div class="lbl">Rooms completed</div></div>
+      <div class="stat"><div class="num c3">27</div><div class="lbl">TryHackMe badges</div></div>
       <div class="stat"><div class="num c4">#2</div><div class="lbl">AAUCTFv1 CTF</div></div>
       <div class="stat"><div class="num c1">5</div><div class="lbl">Certifications earned</div></div>
     </div>
@@ -666,7 +768,7 @@
         <svg class="icon" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="20" stroke="#3dffa0" stroke-width="1.6" stroke-dasharray="3 4"/><path d="M14 24 L20 30 L31 16" stroke="#3dffa0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div class="big">Top 3%</div>
         <div class="cap">TryHackMe — Global Ranking</div>
-        <div class="sub">Ranked in the top 3% of all TryHackMe users worldwide across rooms, paths, and CTFs.</div>
+        <div class="sub">Ranked in the top 2% of all TryHackMe users worldwide across rooms, paths, and CTFs.</div>
         <a class="ach-link" href="https://tryhackme.com/p/1Yzn" target="_blank" rel="noopener">view profile ↗</a>
       </div>
 
@@ -695,48 +797,49 @@
         <div class="eyebrow">projects</div>
         <h2>Hands-on labs</h2>
       </div>
-      <p>Self-built detection &amp; forensics labs, documented and version-controlled on GitHub.</p>
+      <p>Click a project to enter a detailed, animated threat lab: follow the machines, watch each network action, inspect host events and SOC alerts, then open the real GitHub evidence.</p>
     </div>
 
     <div class="proj-grid reveal">
-      <div class="proj-card">
+      <div class="proj-card" role="button" tabindex="0" aria-label="Play interactive incident replay" data-replay="hybrid">
         <div class="proj-path">CySYzn <span>/ Hybrid-AD-SOC-DFIR-Lab</span></div>
-        <div class="proj-name">Hybrid Active Directory SOC &amp; DFIR Lab</div>
-        <div class="proj-desc">Hybrid VMware + VirtualBox lab integrating Active Directory, Wazuh SIEM and OPNsense. Built custom detections for authentication failures, encoded PowerShell, AD enumeration and scheduled-task activity; validated active response and investigated Windows artifacts across 34,984 parsed events with 212 evidence files SHA-256 verified.</div>
-        <div class="proj-tags"><span class="tag">Wazuh SIEM</span><span class="tag">Active Directory</span><span class="tag">Detection Engineering</span><span class="tag">DFIR</span></div>
-        <a class="proj-link" href="https://github.com/CySYzn/Hybrid-AD-SOC-DFIR-Lab" target="_blank" rel="noopener noreferrer">view repo ↗</a>
+        <div class="proj-name">Hybrid AD SOC &amp; DFIR Lab</div>
+        <div class="proj-desc">Enterprise-style Active Directory lab connecting Windows telemetry, Wazuh, attacker simulations, alert triage and forensic investigation across segmented networks.</div>
+        <div class="proj-tags"><span class="tag">Active Directory</span><span class="tag">Wazuh</span><span class="tag">Sysmon</span><span class="tag">DFIR</span></div>
+        <span class="proj-replay-hint">click card to replay scenario</span>
+        <a class="proj-link" href="https://github.com/CySYzn/Hybrid-AD-SOC-DFIR-Lab" target="_blank" rel="noopener">view repo ↗</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card" role="button" tabindex="0" aria-label="Play interactive incident replay" data-replay="suricata">
         <div class="proj-path">CySYzn <span>/ suricata-wazuh-ids-lab</span></div>
         <div class="proj-name">Suricata + Wazuh IDS Lab</div>
         <div class="proj-desc">Network-based intrusion detection lab using Suricata + Wazuh, validated against a live vsftpd 2.3.4 backdoor exploit on Metasploitable2.</div>
         <div class="proj-tags"><span class="tag">Suricata</span><span class="tag">Wazuh</span><span class="tag">Metasploitable2</span></div>
-        <a class="proj-link" href="https://github.com/CySYzn/suricata-wazuh-ids-lab" target="_blank" rel="noopener">view repo ↗</a>
+        <span class="proj-replay-hint">click card to replay scenario</span><a class="proj-link" href="https://github.com/CySYzn/suricata-wazuh-ids-lab" target="_blank" rel="noopener">view repo ↗</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card" role="button" tabindex="0" aria-label="Play interactive incident replay" data-replay="rdp">
         <div class="proj-path">CySYzn <span>/ wazuh-rdp-bruteforce-detection</span></div>
         <div class="proj-name">Wazuh RDP Bruteforce Detection</div>
         <div class="proj-desc">Host-based intrusion detection lab using Wazuh + Sysmon, validated against a live RDP brute-force attack (Hydra) and unauthorized remote access on a Windows 10 endpoint.</div>
         <div class="proj-tags"><span class="tag">Wazuh</span><span class="tag">Sysmon</span><span class="tag">Hydra</span></div>
-        <a class="proj-link" href="https://github.com/CySYzn/wazuh-rdp-bruteforce-detection" target="_blank" rel="noopener">view repo ↗</a>
+        <span class="proj-replay-hint">click card to replay scenario</span><a class="proj-link" href="https://github.com/CySYzn/wazuh-rdp-bruteforce-detection" target="_blank" rel="noopener">view repo ↗</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card" role="button" tabindex="0" aria-label="Play interactive incident replay" data-replay="phishing">
         <div class="proj-path">CySYzn <span>/ phishing-email-forensics-lab</span></div>
         <div class="proj-name">Phishing Email Forensics Lab</div>
         <div class="proj-desc">Hands-on forensic analysis of a synthetic phishing email — header/routing inspection, SPF/DKIM/DMARC verification against a real domain's DNS records, and malicious-PDF triage using pdfid and pdf-parser.</div>
         <div class="proj-tags"><span class="tag">SPF/DKIM/DMARC</span><span class="tag">pdfid</span><span class="tag">DFIR</span></div>
-        <a class="proj-link" href="https://github.com/CySYzn/phishing-email-forensics-lab" target="_blank" rel="noopener">view repo ↗</a>
+        <span class="proj-replay-hint">click card to replay scenario</span><a class="proj-link" href="https://github.com/CySYzn/phishing-email-forensics-lab" target="_blank" rel="noopener">view repo ↗</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card" role="button" tabindex="0" aria-label="Play interactive incident replay" data-replay="pcap">
         <div class="proj-path">CySYzn <span>/ PCAP-Security-Analyzer</span></div>
         <div class="proj-name">PCAP Security Analyzer</div>
         <div class="proj-desc">Python tool that parses PCAP/PCAPNG files, flags suspicious IPs by packet volume and port-scan behavior, and charts protocol distribution with PyShark and Matplotlib.</div>
         <div class="proj-tags"><span class="tag">PyShark</span><span class="tag">Matplotlib</span><span class="tag">Python</span></div>
-        <a class="proj-link" href="https://github.com/CySYzn/PCAP-Security-Analyzer" target="_blank" rel="noopener">view repo ↗</a>
+        <span class="proj-replay-hint">click card to replay scenario</span><a class="proj-link" href="https://github.com/CySYzn/PCAP-Security-Analyzer" target="_blank" rel="noopener">view repo ↗</a>
       </div>
     </div>
   </section>
@@ -786,7 +889,7 @@
       <div class="tool-card" style="--accent:var(--green)">
         <svg class="icon" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="2"/><path d="M16 4v6M16 22v6M4 16h6M22 16h6M7.5 7.5l4.2 4.2M20.3 20.3l4.2 4.2M24.5 7.5l-4.2 4.2M11.7 20.3l-4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/></svg>
         <div class="cat-name">Network Forensics</div>
-        <div class="tags"><span class="tag">Wireshark</span><span class="tag">CyberChef</span></div>
+        <div class="tags"><span class="tag">Wireshark</span><span class="tag">CyberChef</span><span class="tag">NetworkMiner</span><span class="tag">Tshark</span></div>
       </div>
 
       <div class="tool-card" style="--accent:var(--magenta)">
@@ -804,19 +907,19 @@
       <div class="tool-card" style="--accent:var(--purple)">
         <svg class="icon" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="8" rx="10" ry="4" stroke="currentColor" stroke-width="2"/><path d="M6 8v16c0 2.2 4.5 4 10 4s10-1.8 10-4V8" stroke="currentColor" stroke-width="2"/><path d="M6 16c0 2.2 4.5 4 10 4s10-1.8 10-4" stroke="currentColor" stroke-width="2"/></svg>
         <div class="cat-name">Disk Analysis</div>
-        <div class="tags"><span class="tag">Autopsy</span><span class="tag">Web Cache View</span></div>
+        <div class="tags"><span class="tag">Autopsy</span><span class="tag">FTK Imager</span></div>
       </div>
 
       <div class="tool-card" style="--accent:var(--cyan)">
         <svg class="icon" viewBox="0 0 32 32" fill="none"><circle cx="11" cy="21" r="5" stroke="currentColor" stroke-width="2"/><path d="M14.5 17.5 L26 6M26 6h-5M26 6v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div class="cat-name">Registry &amp; Artifact Analysis</div>
-        <div class="tags"><span class="tag">Registry Explorer</span><span class="tag">Event Log Explorer</span><span class="tag">AppCompatCacheParser</span></div>
+        <div class="tags"><span class="tag">Registry Explorer</span><span class="tag">Event Log Explorer</span><span class="tag">RegRipper</span><span class="tag">PECmd</span><span class="tag">EvtxCmd</span><span class="tag">MFTECmd</span></div>
       </div>
 
       <div class="tool-card" style="--accent:var(--magenta)">
         <svg class="icon" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="17" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 9.5 L16 19 L28 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div class="cat-name">Email Forensics</div>
-        <div class="tags"><span class="tag">Oledump</span><span class="tag">OutlookSpy</span><span class="tag">Email Header Analyzer</span></div>
+        <div class="tags"><span class="tag">Oledump</span><span class="tag">OutlookSpy</span><span class="tag">Email Header Analyzer</span><span class="tag">Vscode</span></div>
       </div>
     </div>
   </section>
@@ -864,12 +967,13 @@
       'suricata-wazuh-ids-lab': 'Network IDS lab (Suricata + Wazuh), validated against a live vsftpd 2.3.4 backdoor exploit on Metasploitable2.',
       'wazuh-rdp-bruteforce-detection': 'Host-based detection (Wazuh + Sysmon) of a live Hydra RDP brute-force attack on a Windows 10 endpoint.',
       'phishing-email-forensics-lab': 'Header/routing analysis, SPF/DKIM/DMARC checks and malicious-PDF triage with pdfid and pdf-parser.',
-      'PCAP-Security-Analyzer': 'Python tool (PyShark + Matplotlib) that flags suspicious IPs and port scans in PCAP/PCAPNG files.'
+      'PCAP-Security-Analyzer': 'Python tool (PyShark + Matplotlib) that flags suspicious IPs and port scans in PCAP/PCAPNG files.',
+      'Hybrid-AD-SOC-DFIR-Lab': ''
     };
     const FILES = {
       'role.txt': 'Cybersecurity Student | SOC Analyst | DFIR',
       'focus.txt': 'Blue Team · SOC Operations · Digital Forensics · Incident Response',
-      'rank.txt': 'TryHackMe — Rank #65,308 (Top 3%) · 115 rooms · 25 badges',
+      'rank.txt': 'TryHackMe — Rank #58,036 (Top 2%) · 130 rooms · 27 badges',
       'certs.txt': 'CCDL1 — CyberDefenders (Jul 2026)\nSecurity+ SY0-701 — CompTIA (Oct 2025)\neCIR — INE Security (Sep 2026)\neCDFP — INE Security (Sep 2026)\nPre Security + SOC Level 1 — TryHackMe',
       'stack.txt': 'SIEM: Splunk SPL, KQL, Elastic\nNetwork: Wireshark, CyberChef\nMemory: Volatility, FTK Imager, Redline, Strings\nDisk: Autopsy, Registry Explorer, Event Log Explorer\nIntel: VirusTotal, Shodan, MITRE ATT&CK, URLhaus, URLScan.io, MalwareBazaar',
       'achievements.txt': 'TryHackMe: top 3% global rank\nAAUCTFv1: 2nd place\nTryHackMe paths: Pre Security, SOC Level 1 (73+ hours)'
@@ -1135,5 +1239,323 @@
     </div>
   </div>
 </div>
+
+
+
+
+<!-- Visual lab replays are narrated reconstructions. No raw evidence or real attacker activity is embedded. -->
+<div class="replay-backdrop" id="replayBackdrop" aria-hidden="true">
+  <section class="replay-window" role="dialog" aria-modal="true" aria-labelledby="replayTitle" tabindex="-1">
+    <header class="replay-top">
+      <div class="replay-top-left"><div class="replay-brandmark">⌁</div><div><div class="replay-eyebrow">// y2z3 · interactive threat laboratory</div><h2 class="replay-title" id="replayTitle">Investigation simulation</h2></div></div>
+      <div class="replay-top-actions"><button id="replayRestart" class="replay-button" type="button">↻ Restart</button><button id="replayClose" class="replay-button replay-close" type="button" aria-label="Close scenario">×</button></div>
+    </header>
+    <div class="replay-intro"><span class="replay-pill">VISUAL RECONSTRUCTION</span><span id="replayIntro">An educational replay with individually labeled documented facts and illustrative steps. No real traffic is generated.</span></div>
+    <div class="replay-progress" aria-hidden="true"><div class="replay-progress-fill" id="replayProgress"></div></div>
+    <div class="replay-body">
+      <aside class="replay-timeline" aria-label="Scenario steps">
+        <div class="replay-timeline-head"><div class="replay-mini-heading">Operation timeline</div><div class="replay-timeline-title" id="replayTimelineTitle">Case study</div><div class="replay-mini-heading" id="replayTimelineCount">00 STEPS</div></div>
+        <div class="replay-timeline-list" id="replayTimeline"></div>
+      </aside>
+      <div class="replay-main">
+        <div class="replay-topology-bar"><div class="replay-mini-heading">Live-style network topology</div><div class="replay-topology-meta" id="replayTopologyMeta">ISOLATED LAB · SIMULATED TRAFFIC</div></div>
+        <div class="replay-topology" id="replayTopology" aria-label="Animated lab machines and network packet paths" role="img"></div>
+        <div class="replay-network-state"><span class="replay-net-label">CURRENT FLOW</span><span id="replayFlow">LOCAL OBSERVATION</span><span id="replayProtocol">—</span></div>
+        <div class="replay-screen"><div class="replay-screen-top"><span class="replay-screen-dot"></span><span class="replay-screen-dot"></span><span class="replay-screen-dot"></span><span id="replayScreenTitle">Investigative workstation</span><span class="replay-screen-mode" id="replayScreenMode">VIEW</span></div><div class="replay-screen-content" id="replayScreenContent"></div></div>
+      </div>
+      <aside class="replay-inspector"><div class="replay-step-count" id="replayStepCount">STEP 01 / 20</div><h3 class="replay-step-title" id="replayStepTitle">Investigation stage</h3><p class="replay-explain" id="replayNarrative"></p>
+        <div class="replay-block"><div class="replay-detail-label">01 · Exactly what happens</div><p id="replayAction"></p></div>
+        <div class="replay-block"><div class="replay-detail-label">02 · What changes on screen / network</div><p id="replayObserved" class="step-observed"></p></div>
+        <div class="replay-block"><div class="replay-detail-label">03 · SOC analyst interpretation</div><p id="replayEvidence" class="analyst-tip"></p></div>
+        <div class="replay-evidence-status" id="replayEvidenceStatus">Illustrative learning step</div>
+        <div class="replay-tactic" id="replayTactic">PHASE · NETWORK</div>
+      </aside>
+    </div>
+    <footer class="replay-bottom"><div class="replay-nav"><button class="replay-button" id="replayPrev" type="button">← Previous</button><button class="replay-button primary" id="replayPlay" type="button">▶ Play sequence</button><button class="replay-button" id="replayNext" type="button">Next →</button><div class="replay-speed"><label for="replaySpeed">Speed</label><select id="replaySpeed" aria-label="Replay speed"><option value="4200">Fast</option><option value="7200" selected>Normal</option><option value="11000">Slow</option></select></div></div><a class="replay-github" id="replayRepo" href="https://github.com/CySYzn" target="_blank" rel="noopener noreferrer">Full project & evidence on GitHub ↗</a></footer>
+  </section>
+</div>
+
+<script>
+/* y2z3 — visual scenario replay v2; a narrative reconstruction, NEVER a live attack interface. */
+(function(){
+'use strict';
+const base='https://github.com/CySYzn/';
+const S=(phase,title,path,wire,screen,lines,summary,action,observed,analyst,proof='illustrative')=>({phase,title,path,wire,screen,lines,summary,action,observed,analyst,proof});
+const scenarios={
+ hybrid:{title:'Hybrid Active Directory SOC & DFIR',short:'AD / SMB authentication',intro:'Segmented VMware/VirtualBox domain lab · Windows Security 4625 was observed. Each setup or investigation bridge not proven by captured evidence is labeled illustrative.',repo:base+'Hybrid-AD-SOC-DFIR-Lab',
+ nodes:[
+  {id:'kali',name:'KALI',sub:'172.16.100.10',type:'attacker',x:110,y:180},
+  {id:'fw',name:'OPNsense',sub:'192.168.50.254',type:'firewall',x:322,y:180},
+  {id:'dc',name:'DC01',sub:'192.168.50.20',type:'server',x:550,y:100},
+  {id:'win',name:'WIN10-01',sub:'192.168.50.10',type:'pc',x:548,y:314},
+  {id:'wazuh',name:'WAZUH',sub:'192.168.40.130',type:'siem',x:783,y:105},
+  {id:'dfir',name:'DFIR WS',sub:'192.168.40.131',type:'analyst',x:783,y:314}
+ ],edges:[['kali','fw'],['fw','dc'],['fw','win'],['dc','wazuh'],['win','wazuh'],['wazuh','dfir']],steps:[
+ S('LAB','01 · Place the machines',['kali','fw','dc'],'ISOLATED VM NETWORKS','diagram',['[ENV] VMware: DC01 / WIN10-01 / Kali / DFIR workstation','[ENV] VirtualBox: Wazuh Manager + Dashboard','[ZONE] Attacker 172.16.100.0/24','[ZONE] AD LAN 192.168.50.0/24','[ZONE] WAN / monitoring 192.168.40.0/24'],'Start with the physical and logical placement of the test computers.','Create or boot the isolated VMs, assign interfaces to their intended virtual switches, and identify the attacker, Windows targets, gateway, collector, and investigator host.','A visible set of six machines appears, grouped by purpose; no intrusion or telemetry exists yet.','Establish topology before interpreting any firewall or authentication alert. The network drawing is logical, not a literal cabling diagram.','documented'),
+ S('LAB','02 · Bring up the domain',['dc','win'],'DOMAIN JOIN','windows',['Computer: DC01.abumahmoud.corp','Role: Windows Server 2022 · AD DS + DNS','Joined workstation: WIN10-01','Domain: abumahmoud.corp'],'The Windows server hosts the domain and the client belongs to it.','Confirm DC01 runs Active Directory and DNS, and that WIN10-01 is joined to abumahmoud.corp. Confirm the test account soc.test exists.','DC01 is the domain authentication authority; the Windows 10 endpoint becomes a domain-managed client.','AD authentication is a separate layer from mere TCP reachability.','documented'),
+ S('LAB','03 · Check IP addressing',['kali','fw'],'NETWORK ADDRESSING','terminal',['KALI       172.16.100.10/24','OPNsense   192.168.50.254/24','DC01       192.168.50.20/24','WIN10-01   192.168.50.10/24','WAZUH      192.168.40.130/24','DFIR       192.168.40.131/24'],'Before traffic is sent, verify which zone owns each source and destination.','Review VM network adapters and IP configuration; confirm the Kali test segment and Windows domain segment do not accidentally share an unrestricted flat network.','Source and destination addresses identify the two sides of the boundary traversed by the simulated authentication attempt.','Segment boundaries matter: a failed logon can only be attributed to a remote source after reachability and source mapping are confirmed.','documented'),
+ S('NETWORK','04 · Validate routing',['dc','fw','kali'],'REVERSE ROUTE','firewall',['[ROUTE] DC01 → 172.16.100.0/24','[NEXT HOP] 192.168.50.254','[CHECK] Return path via OPNsense','[NOTE] Firewall/NAT configuration affects visibility'],'The two lab segments need working routes in both directions.','Check the domain controller route to 172.16.100.0/24 via OPNsense and review the isolated firewall’s rules and translation behavior.','Return-path traffic can now flow between DC01 and Kali when policy permits.','Without a return route, a blocked or timed-out connection can look like a service failure rather than a credential event.','documented'),
+ S('NETWORK','05 · Probe SMB reachability',['kali','fw','dc'],'TCP 445 / CONNECT','terminal',['$ nc -vz 192.168.50.20 445','Connection to 192.168.50.20 445 [tcp/microsoft-ds] succeeded','[DST] DC01 · SMB listener','[STATE] Path open for an authentication test'],'The attacker-side Kali machine checks the exposed SMB service in the authorized lab.','From Kali, test TCP port 445 on DC01. A reachable socket verifies the network path; it does not mean any username or password has been accepted.','A bright packet trail travels from Kali through OPNsense to DC01 and back.','TCP connection success and SMB login success are different events.','documented'),
+ S('LOGGING','06 · Enable security auditing',['dc','wazuh'],'AUDIT POLICY','windows',['Windows Security Log → Advanced Audit Policy','Logon: Success + Failure','Credential Validation: Success + Failure','Kerberos Authentication Service: Success + Failure','Process Creation: configured for visibility'],'Ensure a failed login will create auditable host telemetry.','Inspect advanced audit policy on the domain controller. Enable relevant Success/Failure categories and verify they are applied, then leave Event Viewer open for later confirmation.','Windows Security log is prepared to capture a failed network authentication.','Windows Security 4625 is the principal artifact for the demonstrated logon failure.','documented'),
+ S('LOGGING','07 · Verify endpoint sensors',['win','wazuh'],'AGENT COLLECTION','windows',['[SERVICE] WazuhSvc · Running','[SERVICE] Sysmon64 · Running','[CHANNEL] Microsoft-Windows-Sysmon/Operational','[CHANNEL] Microsoft-Windows-PowerShell/Operational','[REGISTRY] PowerShell Script Block Logging enabled'],'Confirm the detection pipeline is operating before conducting the test.','Check Windows services and event channels. Wazuh agents must be able to transmit relevant event channels to the manager; Sysmon provides richer endpoint activity, not the 4625 event itself.','Windows Security, Sysmon and PowerShell telemetry sources are available for later correlation.','Logging configuration is a prerequisite for proving a detection.','documented'),
+ S('ATTACK','08 · Select the test account',['kali'],'TEST IDENTITY','terminal',['Attacker VM: KALI','Test identity: ABUMAHMOUD\\soc.test','Target: //192.168.50.20','Service: SMB / NTLM network logon','Purpose: controlled invalid-credential test'],'The Kali operator prepares an authentication attempt against the lab domain.','Use the designated nonproduction soc.test identity and deliberately incorrect lab password. Keep the demonstration inside the isolated network.','No account has been compromised at this point; only a test identity and target are selected.','The account string and origin host are essential attribution fields.','documented'),
+ S('ATTACK','09 · Initiate the SMB session',['kali','fw','dc'],'SMB / TCP 445','network',['01  Kali → gateway: TCP SYN to 192.168.50.20:445','02  Gateway → DC01: route allowed by lab policy','03  DC01 → Kali: TCP handshake returns','04  SMB negotiation starts on open socket'],'Kali begins a network session with the domain controller.','The remote client connects to TCP 445 via the gateway. On an established transport, the SMB client begins negotiating the file-sharing protocol.','The active magenta-to-cyan packet animation reaches DC01 across the firewall.','At this point the attacker has established a network channel, not an authenticated Windows session.','illustrative'),
+ S('ATTACK','10 · Submit invalid credentials',['kali','fw','dc'],'SMB / NTLM','terminal',['[LAB] smbclient to DC01 over SMB','[USER] ABUMAHMOUD\\soc.test','[AUTH] NTLM challenge / response (conceptual)','[RESULT] NT_STATUS_LOGON_FAILURE'],'The domain account fails to authenticate over the new SMB connection.','Kali sends the test username and an incorrect password through the SMB authentication exchange. DC01 evaluates the presented identity and secret.','The attempt ends in a login failure, not remote control or a shell.','The authentication result must be read from Windows security telemetry to determine exact cause.','documented'),
+ S('HOST','11 · DC01 denies the logon',['dc'],'WINDOWS AUTHENTICATION','windows',['Windows Security → Event 4625','An account failed to log on','Logon Type: 3 (network)','Authentication Package: NTLM','Status: 0xC000006D','SubStatus: 0xC000006A'],'Windows records the rejected network authentication.','After validation fails, Windows writes an event to DC01’s Security log. Failed account, workstation, source IP, authentication type and status are preserved as event fields.','The machine displays Event ID 4625. The network source is 172.16.100.10 and the account is soc.test.','0xC000006A indicates an incorrect password; 0xC000006D is a general bad-credentials failure.','documented'),
+ S('HOST','12 · Open the event details',['dc','dfir'],'EVENT INSPECTION','windows',['Event ID: 4625','Computer: DC01.abumahmoud.corp','Account: soc.test · Domain: ABUMAHMOUD','Source Network Address: 172.16.100.10','Workstation: KALI','Logon Type: 3 · Authentication: NTLM'],'The analyst ties the source machine to the precise Windows event.','In Event Viewer, open the failed logon record and read its General and Details fields. Match the network origin and target account to the authorized Kali test.','The event fields provide a direct link between Kali and DC01.','Logon Type 3 is a network logon; it does not by itself represent an interactive desktop session.','documented'),
+ S('COLLECTION','13 · Forward to Wazuh',['dc','wazuh'],'WINDOWS EVENTCHANNEL → WAZUH','wazuh',['[SOURCE] Agent: DC01','[CHANNEL] Security','[EVENT ID] 4625','[INGEST] Windows event transferred for analysis','[FIELDS] Account / Source IP / Status'],'The Windows endpoint forwards event data to the central detection stack.','A Wazuh agent reads configured Windows EventChannel entries and sends event data to the Wazuh manager; the manager decodes and indexes accessible security information.','A SIEM-facing copy of the failed logon can be inspected without logging into DC01.','Pipeline visibility should be verified with a matching original Windows event.','documented'),
+ S('DETECTION','14 · Review Wazuh event',['wazuh','dfir'],'SIEM INVESTIGATION','wazuh',['Threat Hunting · events / alerts','agent.name : DC01','data.win.system.eventID : 4625','data.win.eventdata.ipAddress : 172.16.100.10','account : soc.test','status : failed network logon'],'An analyst searches for the Windows authentication failure centrally.','Open Wazuh Threat Hunting and narrow the timeline to the test interval. Filter the DC01 agent and failed-logon event ID, then inspect source and target fields.','The relevant event is separated from surrounding baseline activity.','The visible event fields are illustrative UI labels; consult the repository for exported proof.','documented'),
+ S('DETECTION','15 · Check a brute-force rule',['wazuh'],'CORRELATION RULE','wazuh',['[RULE] Custom 4625 matcher / aggregation','[FILTER] failed logon by source / account','[WINDOW] repeated failures within interval','[CAUTION] single 4625 ≠ brute force','[CHECK] verify threshold using Wazuh rule testing'],'A single failure is useful but is not enough to claim a password-spraying incident.','Review local rule logic for event 4625 and test repeat-count conditions separately. Confirm whether the available evidence supports a high-frequency alert or only one failed attempt.','The walkthrough pauses at the distinction between raw event and validated detection.','Do not label a lone 4625 record a confirmed brute-force attack.','illustrative'),
+ S('INVESTIGATE','16 · Establish the source story',['kali','fw','dc'],'SESSION CORRELATION','network',['Observed flow: 172.16.100.10 → 192.168.50.20','Transport: SMB TCP/445','Account: soc.test','Result: authentication rejected','No successful SMB session shown in this record'],'Translate the raw event into a chronological network story.','Compare Kali’s test timing with firewall routing and the DC01 record. Confirm all sources refer to the same authorized network logon attempt.','The colored path shows the origin, gateway and rejected destination in sequence.','When timestamps differ by clock or timezone, normalize them before claiming causality.','illustrative'),
+ S('INVESTIGATE','17 · Look for success or lockout',['dc','wazuh'],'4624 / 4740 PIVOT','wazuh',['Follow-up query: EventID 4624 near test time','Follow-up query: EventID 4740 near test time','Compare LogonType / source / username','No positive result is asserted here'],'The analyst checks what happened after the denied attempt.','Search a bounded time window for successful logons (4624), account lockout (4740) and further 4625 events for the same account or source. Only evidence found in real data may support an escalation finding.','The investigation screen displays comparison filters rather than an invented compromise.','Absence of corroborating evidence is not proof that no other activity existed.','illustrative'),
+ S('INVESTIGATE','18 · Correlate Sysmon and PowerShell',['win','wazuh'],'SYSMON / 4104','wazuh',['WIN10-01: Sysmon Event 1 · Process Create','Windows PowerShell 4104 · Script Block Logging','Related queries only if timestamps and host match','Do not infer PowerShell execution from SMB failure'],'Use independent endpoint telemetry if the timeline calls for it.','Check whether host process events (Sysmon ID 1), process creation auditing, and PowerShell Script Block events (4104) overlap any other verified lab action. Keep unrelated tests separated from the SMB failure.','Multiple telemetry categories are shown; there is no fictional execution or lateral movement.','An SMB logon failure does not imply code execution on WIN10-01.','documented'),
+ S('RESPONSE','19 · Evaluate containment',['wazuh','fw'],'PROPOSED RESPONSE','firewall',['[OPTION] Review active-response configuration','[OPTION] Verify scope before blocking IP','[OPTION] Consider account lockout after 5 failures','[SAFETY] Preserve evidence before remediation'],'Show how detection could translate into a safe response decision.','Review Wazuh active-response settings and the OPNsense policy before using a source-IP block. In a lab, test on explicitly authorized addresses and keep a rollback route.','A potential block path is highlighted as a decision, not a claim that a block occurred.','Active-response availability must not be mistaken for evidence of actual containment.','illustrative'),
+ S('DFIR','20 · Preserve the event',['dc','dfir'],'EVIDENCE HANDOFF','windows',['Case artifact: DC01 Security log / Event 4625','Preserve event XML or EVTX where available','Record timestamp + timezone + host','Record source, account, logon type, status'],'The investigator preserves a traceable primary record.','Export the relevant event or collect the EVTX in an authorized forensic workflow. Record chain-of-custody metadata, case notes, timezone and exact Windows field values.','The event moves conceptually into the DFIR workstation’s evidence collection.','Screenshots alone are useful context but should not replace original EVTX when available.','illustrative'),
+ S('DFIR','21 · Reconstruct the timeline',['kali','fw','dc','wazuh','dfir'],'FULL EVENT PATH','report',['01  Authorized Kali SMB connection to DC01','02  SMB / NTLM login with invalid password','03  DC01 Security 4625 · LogonType 3','04  Wazuh collection and analyst query','05  Evidence preservation / outcome review'],'All verified events are placed in the correct order.','Produce a time-ordered diagram matching the source session, DC01 authentication decision, Security event and SIEM investigation. Clearly separate confirmed facts from checks or recommendations.','The diagram animates the end-to-end Kali → gateway → DC01 → Wazuh → DFIR relationship.','Write the smallest conclusion supported by the artifacts: an observed failed SMB network logon.','documented'),
+ S('REPORT','22 · Report the case',['dfir'],'CASE REPORT','report',['Case: Failed SMB/NTLM logon · lab simulation','Confirmed: source 172.16.100.10 → DC01','Account: ABUMAHMOUD\\soc.test','Windows event: 4625 · LogonType 3','Outcome: denied authentication','Repository: Hybrid-AD-SOC-DFIR-Lab'],'The last screen explains what happened, why the alert matters and what is *not* established.','Write the finding, methodology, scope, indicators, event interpretation, limits, detection opportunities and next steps. Link the actual GitHub report and screenshots from the portfolio.','The replay ends with an analyst report rather than a fabricated compromise scene.','This specific test established failed authentication; it did not establish a successful intrusion.','documented')
+ ]},
+ suricata:{title:'Suricata + Wazuh Network IDS',short:'FTP exploitation detection',intro:'A visualized controlled test of the intentionally vulnerable vsftpd 2.3.4 service on Metasploitable2; layout and intermediate UI are schematic.',repo:base+'suricata-wazuh-ids-lab',nodes:[
+ {id:'kali',name:'Kali VM',sub:'Attacker / test',type:'attacker',x:126,y:230},
+ {id:'target',name:'Metasploitable2',sub:'FTP / vsftpd',type:'server',x:398,y:230},
+ {id:'sensor',name:'Suricata IDS',sub:'NIDS sensor',type:'sensor',x:648,y:80},
+ {id:'wazuh',name:'Wazuh SIEM',sub:'Alert manager',type:'siem',x:855,y:200},
+ {id:'analyst',name:'SOC Analyst',sub:'Investigation',type:'analyst',x:641,y:372}
+ ],edges:[['kali','target'],['target','sensor'],['sensor','wazuh'],['wazuh','analyst']],steps:[
+ S('LAB','01 · Isolate vulnerable VMs',['kali','target'],'LAB ONLY','diagram',['[SOURCE] Kali Linux test VM','[TARGET] Metasploitable2 (purposely vulnerable)','[SERVICE] vsftpd 2.3.4','[SAFETY] isolated virtual network'],'The attack demonstration is confined to systems designed for testing.','Boot Kali and the intentionally vulnerable Metasploitable2 VM on a non-production network. Do not point the vulnerability test at public hosts.','Two VMs appear with a direct logical traffic link.','The project’s objective is to validate defensive network detection, not to gain access to third-party systems.','documented'),
+ S('LAB','02 · Establish sensor visibility',['target','sensor'],'MONITOR / MIRROR','network',['[SURICATA] Sensor receives observed packets','[PATH] Target traffic is visible to IDS','[CHECK] Correct capture interface','[NOTE] Sensor is a passive observer in the diagram'],'The IDS can only detect traffic that reaches its capture interface.','Select the interface or monitoring mechanism that exposes target traffic to Suricata. Verify interface status and capture coverage.','A secondary observation link leads from target traffic into the sensor.','The sensor is not necessarily inline; this is a logical traffic-observation link.','illustrative'),
+ S('LOGGING','03 · Start the detection pipeline',['sensor','wazuh'],'EVE.JSON TELEMETRY','suricata',['Suricata → EVE JSON output','Wazuh agent → manager ingestion','Expected fields: src_ip / dest_ip / signature / timestamp','Inspect service status before test traffic'],'Make sure a packet alert can be surfaced for triage.','Verify Suricata is processing packets and emitting event data, and that the Wazuh collector can read the relevant IDS logs.','The sensor-to-SIEM pipeline is ready to receive alert metadata.','Test collector health before interpreting the absence of alerts.','documented'),
+ S('RECON','04 · Find the FTP service',['kali','target'],'FTP TCP/21','terminal',['[TEST] Connect to target FTP port 21','[BANNER] FTP server identifies service','[SERVICE] vsftpd 2.3.4','[GOAL] establish expected exposed interface'],'Kali discovers the FTP entry point on Metasploitable2.','The authorized tester checks the vulnerable VM’s FTP listener and confirms the service banner. This is service identification, not proof that a backdoor executed.','The route from Kali to the target lights up along TCP port 21.','Version banners can be inaccurate; the lab uses a known vulnerable image.','documented'),
+ S('RECON','05 · Preserve baseline packets',['kali','target','sensor'],'CAPTURE / BASELINE','suricata',['[BASELINE] Normal FTP handshake','[FLOW] Kali → Metasploitable2','[CAPTURE] Timestamp / IP pair / TCP destination port','[QUESTION] Which packets look different later?'],'Capture normal protocol behavior for comparison.','Record a short pre-test FTP session and note relevant timing, endpoint addresses and ports.','Traffic packets flow to the FTP server while the IDS observes the interaction.','Distinguish normal FTP control-channel activity from the controlled exploit sequence.','illustrative'),
+ S('ATTACK','06 · Launch controlled test',['kali','target'],'AUTHORIZED TEST / FTP','terminal',['[LAB] Controlled vsftpd 2.3.4 backdoor validation','[TARGET] Metasploitable2 only','[PORT] TCP 21 · FTP control channel','[OUTCOME] interpret from captured evidence'],'The authorized attacker runs the documented vulnerability validation.','Within the dedicated lab, initiate the known vsftpd backdoor test using an approved testing workflow; the animation intentionally does not reproduce exploit payloads or active commands.','An attack-flow trail appears on the Kali-to-target connection.','Only the project’s actual evidence can confirm whether a shell or secondary session occurred.','documented'),
+ S('ATTACK','07 · Inspect control packets',['kali','target','sensor'],'FTP CONTROL TRAFFIC','suricata',['[TRAFFIC] FTP control session','[EXAMINE] unusual control-channel request sequence','[EXAMINE] session reset / response behavior','[CORRELATE] exact test time'],'Watch what changed during the validation sequence.','Inspect the captured FTP exchange surrounding the test. Identify direction, protocol, responses and whether the expected traffic signature is present.','The IDS sensor observes new control-channel activity associated with the test.','A detection must be supported by actual captured packets, not only the vulnerability name.','illustrative'),
+ S('DETECT','08 · Suricata evaluates rules',['target','sensor'],'IDS RULE MATCH','suricata',['[ENGINE] Rule inspection / TCP stream state','[POTENTIAL] vsftpd backdoor signature','[EVIDENCE] matching packet sequence','[CHECK] signature ID + metadata'],'The IDS applies network signatures to inspected traffic.','Compare the observed stream against loaded Suricata signatures. Inspect the rule identifier and message where a match is generated.','A sensor alert is represented if the configured rule matches the lab traffic.','Rule and signature IDs are not invented here because they depend on the actual installed ruleset.','illustrative'),
+ S('DETECT','09 · Write IDS event',['sensor'],'EVE.JSON ALERT','suricata',['event_type: alert','src_ip: <Kali lab IP>','dest_ip: <target lab IP>','app_proto: ftp','alert.signature: <configured rule>'],'A matching network event becomes structured JSON for downstream tools.','Inspect the relevant eve.json event and confirm timestamp, source/destination, event_type, and alert object.','Suricata provides structured detection metadata.','Exact addresses and signatures are intentionally unspecified when not confirmed in project evidence.','illustrative'),
+ S('COLLECT','10 · Send detection to Wazuh',['sensor','wazuh'],'JSON → WAZUH','wazuh',['[INPUT] Suricata EVE JSON','[NORMALIZE] parsed event fields','[SIEM] Wazuh Security Events','[SEARCH] source IP / destination / signature'],'The SIEM adds a searchable network detection to the investigation timeline.','Confirm the agent ingests EVE JSON and that Wazuh indexes or alerts on the appropriate record.','The blue telemetry link lights up between Suricata and Wazuh.','Distinguish an IDS event from a Wazuh alert rule that may use it.','documented'),
+ S('TRIAGE','11 · Open the Wazuh alert',['wazuh','analyst'],'SOC ALERT TRIAGE','wazuh',['Threat Hunting → Suricata-related activity','Inspect event time and network tuple','Identify relevant alert signature / severity','Match to authorized test timestamp'],'An analyst sees the detection at the monitoring console.','Open the relevant Wazuh hit, confirm event origin and timeline, and inspect which rule or Suricata signature drove the event.','A Wazuh alert preview highlights the relevant IP and detection category.','Time correlation is the bridge between test action and detector response.','illustrative'),
+ S('TRIAGE','12 · Compare source/destination',['kali','target','sensor','wazuh'],'END-TO-END ATTRIBUTION','network',['Kali → Metasploitable2 over FTP','Target traffic observed by Suricata','Suricata JSON → Wazuh','Analyst validates end-to-end route'],'Trace the alert back to the intentionally generated source traffic.','Match the two IPs, ports and time window in the IDS hit against the Kali test and target service.','The full packet-to-alert trail is animated across machines.','A detection without a corresponding packet trace is less convincing as evidence.','illustrative'),
+ S('DFIR','13 · Inspect network capture',['target','sensor','analyst'],'PCAP REVIEW','wireshark',['Wireshark → stream / TCP conversations','Focus: FTP TCP 21 and related connections','Validate packet direction and timing','Preserve PCAP reference for report'],'Use packet-level investigation to validate the alert semantics.','In Wireshark, isolate the corresponding connection, inspect protocol behavior and compare alert timing to packet activity.','The analyst sees a packet-list style inspection of the matching flow.','An alert may be correct, false positive or incomplete; reviewing the packet sequence is decisive.','illustrative'),
+ S('DFIR','14 · Interpret exploit outcome',['target','analyst'],'OUTCOME VALIDATION','report',['[CHECK] Did target actually enter unintended state?','[CHECK] Was secondary access present?','[CHECK] Which artifacts support the conclusion?','[RULE] do not infer compromise from banner alone'],'Separate suspicious traffic from successfully executed exploit behavior.','Evaluate observable results from the vulnerable VM and any proven subsequent network session. Write down what the evidence shows and what cannot be proven.','The finding screen shows validation questions without an invented shell or payload.','Catching a test pattern does not automatically prove the target was compromised.','illustrative'),
+ S('RESPONSE','15 · Review defensive options',['wazuh','analyst'],'RESPONSE PLAN','report',['[CONTAINMENT] Restrict FTP exposure','[HARDEN] Patch/replace vulnerable FTP service','[TUNE] Refine IDS rule scope','[RECHECK] Repeat only inside authorized lab'],'Translate detection lessons into defense.','Discuss limiting unnecessary FTP, retiring vulnerable services and tuning monitoring for observed behavior. Keep containment as a proposed response unless evidence documents execution.','The simulation highlights defensive controls, not a fictitious firewall block.','The primary remediation is removal of a vulnerable service, not simply silencing alerts.','illustrative'),
+ S('REPORT','16 · Publish the case',['analyst'],'PROJECT WRITE-UP','report',['Case: Suricata / Wazuh IDS detection lab','Target: Metasploitable2 · vsftpd 2.3.4','Evidence: IDS event + matching network traffic','Result: describe only validated outcome','GitHub: suricata-wazuh-ids-lab'],'Complete the story with evidence-backed detection validation.','Record topology, goal, setup, test conditions, alerts, packet observations, limitations, and lessons learned. Link the actual repository rather than presenting the illustration as evidence.','The final case-report screen links the raw project documentation.','Use the GitHub write-up and screenshots to substantiate the detailed outcome.','documented')
+ ]},
+ rdp:{title:'Wazuh RDP Brute-Force Detection',short:'RDP / Windows endpoint',intro:'A visual replay of the RDP test project with Hydra, Windows 10, Sysmon, Windows Security and Wazuh. Intermediate UI samples are illustrative.',repo:base+'wazuh-rdp-bruteforce-detection',nodes:[
+ {id:'attacker',name:'KALI / HYDRA',sub:'Authorized tester',type:'attacker',x:116,y:238},
+ {id:'win',name:'WIN10',sub:'RDP / TCP 3389',type:'pc',x:407,y:238},
+ {id:'wazuh',name:'WAZUH',sub:'SOC telemetry',type:'siem',x:698,y:105},
+ {id:'analyst',name:'ANALYST',sub:'Alert triage',type:'analyst',x:853,y:310},
+ {id:'logs',name:'EVENT LOG',sub:'4625 / 4624',type:'server',x:693,y:354}
+ ],edges:[['attacker','win'],['win','logs'],['logs','wazuh'],['wazuh','analyst']],steps:[
+ S('LAB','01 · Isolate the machines',['attacker','win'],'TEST NETWORK','diagram',['Kali: Authorized test client','Windows 10: Remote Desktop target','Windows Security log: authentication records','Wazuh: central event analysis'],'Build a closed lab containing a password-testing source and a Windows endpoint.','Boot the endpoint, Kali test VM and Wazuh monitoring server in a controlled network. Avoid any public RDP targets.','The attacker VM, Windows PC, local event log and central SIEM become visible.','Every later sign-in event must map to a particular machine.','documented'),
+ S('LAB','02 · Verify RDP target',['win'],'RDP SERVICE','windows',['Windows → Remote Desktop settings','RDP service: configured for lab test','TCP listener: 3389','Account selection: authorized test account'],'The target must accept RDP requests for the lab to produce useful events.','Confirm RDP configuration on Windows 10, user permissions and the reachable test port. Do not disable protective features outside the dedicated lab.','The Windows PC advertises an RDP listening service.','A network timeout is not equivalent to a failed authentication.','illustrative'),
+ S('LOGGING','03 · Enable log collection',['win','logs','wazuh'],'SECURITY EVENTCHANNEL','windows',['Windows Security → Success / Failure audit','Event ID 4625: failed logon','Event ID 4624: successful logon','Sysmon: additional endpoint context','Wazuh agent: event collection'],'Ensure the host provides visibility into login failures and session creation.','Enable relevant audit policy and confirm the Wazuh agent reads Windows Security logs. Verify Sysmon and event ingestion separately.','The endpoint starts feeding its Security logs toward Wazuh.','Sysmon helps with process/network context; native Windows Security events prove logon outcomes.','documented'),
+ S('RECON','04 · Check TCP reachability',['attacker','win'],'TCP 3389','terminal',['[TEST] authorized connection to TCP/3389','[RESULT] identify open vs blocked port','[TARGET] Windows 10 lab endpoint','[NEXT] authentication test only if reachable'],'Kali finds the remote desktop entry point.','Check whether TCP port 3389 is reachable on the Windows 10 lab system. If closed, fix authorized lab network setup before the test.','A connection trail crosses from Kali to the Windows desktop.','Only an open RDP service can participate in remote authentication traffic.','illustrative'),
+ S('ATTACK','05 · Prepare password test',['attacker'],'LAB AUTHENTICATION TEST','terminal',['Tool: Hydra (lab only)','Protocol: RDP','Target: Windows 10 test machine','User: designated lab account','Passwords: controlled test set'],'A controlled password-guessing test is prepared without targeting production users.','Choose a designated test account and limited test input. Record the planned start time and boundaries, including a stopping condition.','Nothing has authenticated yet; the attack-side machine is ready.','Define scope and test limits before producing account lockouts or alerts.','documented'),
+ S('ATTACK','06 · Send first RDP attempt',['attacker','win'],'RDP NEGOTIATION','network',['Kali → Windows 10: TCP/3389','RDP negotiation / security handshake','Test credentials submitted','Endpoint evaluates credentials'],'The first password test reaches the target endpoint.','Hydra generates an authorized RDP authentication attempt. The Windows service processes the connection and credentials under its configured security mechanisms.','One moving packet traverses the attacker-to-Windows link.','An established RDP transport is not the same as an authenticated Windows desktop.','illustrative'),
+ S('HOST','07 · Observe failed logon',['win','logs'],'SECURITY EVENT 4625','windows',['Event ID: 4625','Message: An account failed to log on','Inspect: Source Network Address','Inspect: Logon Type / Account Name','Inspect: Status / SubStatus'],'Windows writes a failed-login event when the submitted credentials are rejected.','Open the Windows Security log and inspect the relevant 4625 event. Record precise fields rather than assuming every event is remote desktop interactive logon.','The endpoint event log shows a failed authentication.','The Logon Type depends on the authentication stage and should be read directly; do not assume it must equal 10.','documented'),
+ S('ATTACK','08 · Repeat controlled attempts',['attacker','win'],'MULTIPLE RDP LOGONS','network',['Attempt 1: invalid password','Attempt 2: invalid password','Attempt 3: invalid password','[...] Example sequence only','[DO NOT INFER] exact attempt count from illustration'],'Hydra repeats credential checks against the isolated endpoint.','A bounded series of authorized attempts generates a short burst of failed authentications. The animation shows repeated traffic, not the actual historical count.','The active connection pulses repeatedly between attacker and Windows endpoint.','Rate and repetition distinguish a possible brute-force pattern from a single user mistake.','illustrative'),
+ S('HOST','09 · Aggregate 4625 evidence',['win','logs'],'FAILED LOGONS','windows',['Windows Security: 4625 entries','Group by timestamp + source + account','Check Status and SubStatus consistency','Check for lockout state or changed response'],'The analyst checks repeated attempts in the original host records.','Review the Windows Security timeline and correlate source addresses, failed usernames, logon type and failure codes.','The event list forms a pattern of near-time failed sign-ins.','Counts and username values should come from collected EVTX or SIEM export, not this example.','illustrative'),
+ S('COLLECT','10 · Forward endpoint events',['logs','wazuh'],'WAZUH AGENT','wazuh',['agent.name: Windows 10 endpoint','data.win.system.eventID: 4625','data.win.eventdata.ipAddress: source','Wazuh manager → indexed event'],'The endpoint agent delivers authentication telemetry to the SIEM.','Confirm that Windows events are reaching Wazuh and that their source and host fields are correctly decoded.','The blue telemetry path activates from Windows Event Log to Wazuh.','Missing event ingestion is a sensor problem, not proof that the attack did not happen.','documented'),
+ S('DETECT','11 · Trigger correlation review',['wazuh'],'BRUTE-FORCE DETECTION','wazuh',['Rule family: Windows authentication failure','Condition: repeated 4625 in time window','Variables: source / user / event count','Validate actual threshold in installed ruleset'],'The central detector searches for multiple failed attempts with shared context.','Examine the Wazuh rules and evaluate the collected events against frequency/time conditions. Only present a triggered rule where the repository captures it.','A red alert-style indicator is shown as an example of successful correlation.','One 4625 does not prove brute force; rule semantics must be checked.','illustrative'),
+ S('TRIAGE','12 · Investigate the Wazuh hit',['wazuh','analyst'],'ALERT TRIAGE','wazuh',['[FILTER] Event 4625 / test time range','[PIVOT] Repeat source IP','[PIVOT] Target account','[CHECK] Windows Security original record'],'The SOC operator reviews exactly what the monitoring system detected.','Open the alert timeline; pivot by source IP, affected username and endpoint. Identify any gaps between expected and observed authentication events.','The analyst workspace receives the suspicious RDP sequence.','Validate the signal against the original host event, not just the alert title.','documented'),
+ S('TRIAGE','13 · Inspect successful access',['logs','wazuh','analyst'],'4624 / LOGON TYPE 10','windows',['Follow-up: Windows 4624 successful logon','If present: Logon Type 10 · RemoteInteractive','Correlate same IP + account + timestamp','No historical count claimed from example'],'A possible authenticated desktop session must be separately proven.','Check 4624 and relevant terminal-services records for a successful RDP session. The project description mentions unauthorized remote access; the original evidence must establish which account and timestamps.','The inspection screen models success verification, not an invented user session.','Hydra finding a password alone is not proof of a completed interactive RDP session.','illustrative'),
+ S('ATTACK','14 · Visualize the RDP session',['attacker','win'],'RDP SESSION (IF VERIFIED)','windows',['Example Windows 10 remote desktop view','Authenticated session? Verify via Security 4624','RDP session host: Windows 10','Actions after login: not asserted here'],'If a successful remote desktop connection was recorded, visualize its interactive direction.','Treat the remote desktop as a separate verification branch. A verified login would grant a Windows session according to user rights; no destructive actions are depicted or claimed.','A dotted interactive-session link shows *where* remote control would occur if confirmed.','Do not infer command execution or data theft without supporting artifacts.','illustrative'),
+ S('RESPONSE','15 · Contain and harden',['analyst','win'],'DEFENSIVE CONTROLS','report',['Review RDP exposure and firewall rules','Enable MFA / least privilege where possible','Apply account lockout and alert tuning','Preserve logs before changing the system'],'Move from detection to prevention.','Propose limiting RDP to trusted access paths, improving authentication controls and preserving logs. Document any containment separately if actually performed.','The security controls are highlighted on the target PC.','A documented detection does not automatically mean automatic blocking occurred.','illustrative'),
+ S('REPORT','16 · Write incident timeline',['attacker','win','logs','wazuh','analyst'],'FULL TRACE','report',['01 RDP service reachable','02 Bounded Hydra attempts','03 Windows 4625 records','04 Wazuh correlation and review','05 Optional 4624 session verification','06 Defensive recommendations'],'Join attacker action, Windows evidence and SIEM review into a single narrative.','Create a report with screenshots, source IP, targeted endpoint, logon records, correlation rule, verified outcome, limitations and recommended response.','The network trace moves through attack, host log, SIEM and analyst.','Detailed success claims require the actual underlying project evidence.','illustrative')
+ ]},
+ phishing:{title:'Phishing Email & PDF Forensics',short:'Message / attachment investigation',intro:'Static-analysis walkthrough of a synthetic phishing message, sender authentication and PDF. This is forensic visualization, not a real inbox or live email delivery.',repo:base+'phishing-email-forensics-lab',nodes:[
+ {id:'sender',name:'SENDER',sub:'Synthetic email',type:'attacker',x:123,y:223},
+ {id:'inbox',name:'MAILBOX',sub:'RFC822 headers',type:'mail',x:345,y:223},
+ {id:'dns',name:'DNS',sub:'SPF / DKIM / DMARC',type:'server',x:580,y:92},
+ {id:'pdf',name:'PDF FILE',sub:'Attachment',type:'file',x:583,y:350},
+ {id:'analyst',name:'DFIR / KALI',sub:'Static analysis',type:'analyst',x:860,y:223}
+ ],edges:[['sender','inbox'],['inbox','dns'],['inbox','pdf'],['dns','analyst'],['pdf','analyst']],steps:[
+ S('INTAKE','01 · Identify synthetic sample',['sender','inbox'],'SIMULATED MESSAGE','mail',['Case: Synthetic phishing email','Artifact: Email + PDF attachment','Analysis environment: Kali','Objective: inspect sender + content safely'],'The investigation begins with a purpose-built suspicious email.','Load the controlled sample in a read-only or offline workflow. Note subject, timestamp, sender and file list without interacting with suspicious links.','The sender-to-mailbox path shows the origin of the message artifact.','A synthetic sample can still demonstrate a valid forensic method.','documented'),
+ S('INTAKE','02 · Preserve the message',['inbox','analyst'],'EML / HEADERS','mail',['Original email headers','Message-ID and Received hop sequence','From / Reply-To / Return-Path','Attachment metadata retained'],'Preserve raw message structure before interpreting appearance.','Export the EML or original headers and record a case identifier and local file hash. Avoid modifying the source sample while examining.','A forensic copy of the message becomes available on the analyst machine.','Screenshots of the inbox omit technical headers that often reveal a forged origin.','illustrative'),
+ S('HEADERS','03 · Compare sender fields',['inbox','analyst'],'EMAIL HEADER REVIEW','mail',['From: visible sender address','Reply-To: possible alternate address','Return-Path: bounce/envelope sender','Message-ID: routing identifier','Received: delivery path'],'Inspect the difference between displayed and transport sender identity.','Read the RFC 5322 From value and compare it with Reply-To, Return-Path and received hops. Note mismatches; do not claim a mismatch without the preserved headers.','The analysis screen highlights the relevant email header fields.','A familiar displayed name is not proof of sender authenticity.','documented'),
+ S('HEADERS','04 · Read routing hops',['inbox','analyst'],'RECEIVED HEADER PATH','mail',['Received: trace each mail relay','Review earliest trustworthy hop','Compare source host / date values','Normalize timestamps and timezones'],'Rebuild the delivery path from mail-server additions.','Trace Received fields from the bottom upward, accounting for trusted vs potentially forged entries.','Mail-routing hops become the subject of the investigator’s analysis.','Header order and trust boundaries determine how much a claimed origin can be believed.','illustrative'),
+ S('AUTH','05 · Check SPF',['inbox','dns','analyst'],'SPF / DNS TXT','dns',['SPF: authorized sending hosts','Compare envelope sender domain','Examine Authentication-Results where available','DNS TXT lookups in lab investigation'],'The analyst asks whether the sending IP is authorized for the envelope domain.','Inspect SPF results recorded by a trusted receiver or query the domain’s TXT records. Distinguish current DNS policy from the message-time verdict.','The DNS verification path lights up beside the mail header.','SPF failure is a clue; forwarding and other routing features complicate conclusions.','documented'),
+ S('AUTH','06 · Check DKIM',['inbox','dns','analyst'],'DKIM SIGNATURE','dns',['DKIM-Signature: d= domain / s= selector','Public key via selector._domainkey','Signature validity must be independently verified','Compare signed domain with From domain'],'Check whether the message body and signed headers were authenticated.','Inspect DKIM-Signature parameters, DNS selector and trusted Authentication-Results. Treat mere presence of a DKIM header as insufficient proof of a valid signature.','The mail-to-DNS-to-analyst relationship becomes active.','DKIM validates a signing domain, which may differ from the user-visible address.','documented'),
+ S('AUTH','07 · Evaluate DMARC',['inbox','dns','analyst'],'DMARC ALIGNMENT','dns',['DMARC: From-domain alignment','SPF alignment OR DKIM alignment','Policy: none / quarantine / reject','Record the actual trusted result'],'DMARC explains whether authenticated identifiers align with the visible From domain.','Compare SPF or DKIM authenticated domain alignment with the RFC5322 From domain and inspect the declared DMARC policy.','The DNS view shows separate SPF, DKIM and DMARC checks.','A policy of reject signals intent; it does not prove a particular mail provider enforced it.','documented'),
+ S('CONTENT','08 · Inspect the lure',['inbox','analyst'],'BODY / URL','mail',['Suspicious call-to-action language','Link target: defanged before analysis','Compare visible link vs actual target','Do not visit or submit credentials'],'The message body is evaluated for deceptive social-engineering cues.','Review claimed urgency, brand impersonation and target URLs. Defang indicators before copying them into notes.','The suspect link is highlighted in the simulated message view.','Content cues support triage but cannot replace technical header and domain evidence.','documented'),
+ S('ATTACHMENT','09 · Extract PDF safely',['inbox','pdf','analyst'],'ATTACHMENT HANDOFF','pdf',['Sample: suspicious PDF attachment','Record filename, size, hash','Keep file unopened in interactive viewer','Prepare offline static triage'],'The attachment is moved to a controlled forensic workflow.','Preserve the PDF separately, hash it, inspect basic metadata and avoid opening active content in a normal user session.','A file icon travels from the inbox to the isolated analysis computer.','Never infer malware from a PDF extension alone.','documented'),
+ S('ATTACHMENT','10 · Run pdfid',['pdf','analyst'],'PDFID STATIC SCAN','pdf',['$ pdfid.py sample.pdf','Inspect: /JavaScript  /JS','Inspect: /OpenAction  /AA','Inspect: /Launch  /EmbeddedFile','Values are placeholders until actual output is imported'],'The analyst checks structure-level indicators for script or launch behavior.','Run pdfid against the offline attachment to count relevant PDF name tokens and note suspicious markers for further inspection.','The analysis screen lists candidate PDF object types.','One indicator is not a verdict: benign PDFs can also contain action dictionaries.','documented'),
+ S('ATTACHMENT','11 · Inspect PDF objects',['pdf','analyst'],'PDF-PARSER','pdf',['$ pdf-parser.py sample.pdf','Inspect object IDs / dictionaries','Examine referenced streams safely','Avoid executing embedded content'],'Follow suspicious references into individual PDF objects.','Use pdf-parser to inspect objects indicated by pdfid and examine their relationships and embedded structure.','The machine view switches from keyword counts to object references.','Static inspection identifies suspicious structure; it does not prove the file executed.','documented'),
+ S('ATTACHMENT','12 · Inspect metadata / embedded content',['pdf','analyst'],'FILE TRIAGE','pdf',['ExifTool / oletools as applicable','Document metadata / embedded objects','Extract IOCs in defanged format','Do not run payloads on main workstation'],'Add corroborating information from file metadata or embedded structures.','Review document metadata and relevant embedded content using offline tooling; note hashes and object identifiers without executing unknown scripts.','The extracted metadata is displayed as investigation artifacts.','File creation timestamps and author fields can be spoofed or modified.','documented'),
+ S('CORRELATE','13 · Combine the indicators',['inbox','dns','analyst'],'MULTI-SOURCE ANALYSIS','report',['Header path and sender mismatch checks','SPF / DKIM / DMARC results','URL / attachment indicators','PDF structure observations','Confidence + limitations'],'Combine separate evidence families instead of relying on one suspicious clue.','Build a table linking each finding to the raw header, DNS record, URL or PDF object that supports it. State what remains unknown.','The analyst receives converging data from mail, DNS and PDF inspection.','Sender-auth failures alone and PDF token counts alone are not conclusive proof of compromise.','illustrative'),
+ S('VERDICT','14 · Write the investigation',['analyst'],'PHISHING CASE REPORT','report',['Evidence-backed sender / routing assessment','Attachment static-analysis findings','Defanged suspicious indicators','Scope: synthetic example / no live infection','GitHub: phishing-email-forensics-lab'],'Close the case with defensible conclusions and handling guidance.','Document the sample, methodology, observed authentication results, artifact findings, confidence and safe remediation recommendations. Reference the real repository screenshots for exact values.','The forensic workflow ends in a case report, not a fictional infection scene.','This project analyzes a sample; it does not establish a victim was compromised.','documented')
+ ]},
+ pcap:{title:'PCAP Security Analyzer',short:'Offline network telemetry',intro:'Visual walkthrough of the Python packet-analysis workflow using PyShark and Matplotlib. Example scan behavior is a visual teaching aid unless verified in the supplied PCAP.',repo:base+'PCAP-Security-Analyzer',nodes:[
+ {id:'client',name:'CLIENT / SOURCE',sub:'Example packets',type:'pc',x:110,y:162},
+ {id:'server',name:'DESTINATION',sub:'Network peer',type:'server',x:341,y:162},
+ {id:'pcap',name:'CAPTURE',sub:'PCAP / PCAPNG',type:'file',x:551,y:162},
+ {id:'parser',name:'PyShark',sub:'Python analyzer',type:'analyst',x:766,y:162},
+ {id:'chart',name:'Matplotlib',sub:'Visual output',type:'chart',x:554,y:364},
+ {id:'soc',name:'SOC REVIEW',sub:'Manual validation',type:'analyst',x:784,y:364}
+ ],edges:[['client','server'],['server','pcap'],['pcap','parser'],['parser','chart'],['chart','soc']],steps:[
+ S('INPUT','01 · Identify the capture',['client','server'],'EXAMPLE NETWORK SESSION','network',['Possible monitored traffic: client ↔ destination','Traffic observed by a capture point','Protocol mix can include TCP, UDP and others','No live sniffing by the portfolio itself'],'Network activity exists before an offline analyzer sees it.','Choose an authorized example capture and identify capture location, time interval and whether any endpoints may be absent due to the capture vantage point.','The flow begins at a source computer and ends at another network host.','A PCAP contains what the sensor saw, not necessarily all network activity.','illustrative'),
+ S('INPUT','02 · Capture the packets',['client','server','pcap'],'PACKETS → FILE','wireshark',['Network interface → packet capture','File type: .pcap or .pcapng','Preserve original file intact','Record capture time and interface'],'Raw packet observations are written into an offline artifact.','Capture or obtain a permitted PCAP/PCAPNG file and preserve its original metadata. Avoid claiming the sample covers traffic it could not observe.','The illustrated connection becomes a file available for analysis.','Packet timestamps depend on capture-clock accuracy and processing assumptions.','documented'),
+ S('INPUT','03 · Load the file',['pcap','parser'],'OFFLINE INPUT','python',['Python program: PCAP Security Analyzer','Library: PyShark','Input: selected PCAP / PCAPNG','Read capture locally','No outbound traffic required'],'The analysis tool opens the capture for offline parsing.','Run the Python analyzer against the local capture. PyShark reads packet data using underlying dissection support.','The PCAP file is handed to the parser node.','Offline parsing does not mean the original traffic is replayed onto the network.','documented'),
+ S('PARSE','04 · Iterate packet records',['parser'],'PACKET DECODING','python',['for each packet in capture:','    inspect network / transport layer','    extract source, destination, protocol','    handle packets with missing layers'],'The analyzer processes packets one by one and extracts features.','The script iterates over decoded frames, collecting available endpoint and transport attributes and handling malformed or unsupported layers.','Packets are represented as structured rows in the tool screen.','Packet layers vary; not every packet is IPv4 or contains TCP ports.','documented'),
+ S('PARSE','05 · Build endpoint statistics',['parser'],'SOURCE / DEST IP','python',['Aggregate source IP → observed packets','Aggregate destination IP → observed packets','Pair endpoints where feasible','Avoid equating packet count with maliciousness'],'The program summarizes which endpoints dominate the capture.','Maintain counters keyed by source and destination identifiers, then produce a ranked list of conversations or high-volume senders.','The screen shows per-host groupings rather than individual packets.','A high-volume server can be completely legitimate.','documented'),
+ S('PARSE','06 · Count protocols',['parser'],'PROTOCOL DISTRIBUTION','python',['Traffic classes: TCP / UDP / ICMP / other','Count recognized packets','Handle protocol absence / undecodable frames','Create distribution totals'],'Protocol distribution gives context to later anomaly flags.','Increment protocol-specific counters while parsing; ensure missing layers do not crash the program.','A grouped distribution summary appears in the Python tool.','Protocol mix alone does not establish intrusion intent.','documented'),
+ S('FEATURES','07 · Inspect destination ports',['parser'],'PORTS PER SOURCE','python',['For each source IP:','  collect observed destination ports','  count distinct destination ports','  examine time-window concentration'],'The analyzer builds features often used for scan heuristics.','Group TCP/UDP destination ports by source endpoint and compare diversity of ports and destination hosts in the capture window.','Each source now has a set of contacted destination ports.','Many ports in a short window are suspicious in context, not universally malicious.','documented'),
+ S('FEATURES','08 · Identify high packet volume',['parser'],'VOLUME HEURISTIC','python',['Heuristic: packet count above threshold','Candidate: unusually active source','Check service role / direction','No actual threshold value asserted'],'A traffic-volume heuristic marks unusually active systems for analyst review.','Compare source counters against the configured threshold. The actual software setting or code determines its value.','Selected source rows are visually flagged as candidate anomalies.','Thresholds are environment-specific and require validation against baseline traffic.','documented'),
+ S('DETECT','09 · Flag port-scan patterns',['client','server','pcap','parser'],'POSSIBLE MULTIPORT PROBE','wireshark',['Example: source contacts several destination ports','Possible sign: many failed/short sessions','Heuristic result: scan candidate','Confirm against actual PCAP timing'],'The analyzer looks for connection patterns consistent with recon activity.','Review the number of distinct ports contacted by an endpoint and the connection timing; retain them as candidate findings rather than asserted exploitation.','A highlighted path illustrates one source probing a destination host.','The illustration does not assert a particular real source IP performed a scan.','documented'),
+ S('DETECT','10 · Review suspicious hosts',['parser','soc'],'ANALYST TRIAGE','python',['Candidate IP #1: review evidence','Candidate IP #2: review evidence','Check capture window / source role','Corroborate with packet-level inspection'],'The script hands likely leads to a human investigator.','Look at candidate endpoint counts, ports, packet direction and expected baseline behavior. Reclassify false positives where evidence supports it.','Analysis results travel from the Python node toward the SOC reviewer.','A heuristic output is a lead, not an automatic threat attribution.','documented'),
+ S('CHART','11 · Generate protocol chart',['parser','chart'],'MATPLOTLIB GRAPH','chart',['Protocol distribution chart','Category totals derived from capture','Matplotlib visualization','Use actual data labels in final screenshot'],'Charts turn computed counters into an overview.','Pass aggregate protocol counts to Matplotlib and render the distribution. Label axes and legends based on real capture values.','The plotted-output node activates next to the analyzer.','The graph in this portfolio is a stylized preview, not actual PCAP measurements.','documented'),
+ S('CHART','12 · Summarize the traffic',['chart','soc'],'REPORTING','report',['Traffic volume by source','Distinct destination ports','Suspicious IP candidates','Protocol distribution','Limitations / capture blind spots'],'Combine the numerical signals and clear investigative limitations.','Generate a concise security summary with counts from the capture, flagged endpoints, possible scan behavior and the basis for every flag.','The charts and findings are handed to the analyst review node.','Use real source counts and measured time windows when presenting project results.','documented'),
+ S('VALIDATE','13 · Verify in Wireshark',['pcap','soc'],'MANUAL PACKET PIVOT','wireshark',['Filter by candidate source or conversation','Inspect TCP flags and conversation length','Examine packet timing / transport errors','Confirm or reject scan interpretation'],'A human analyst double-checks the automated detection.','Return to the source PCAP in Wireshark, filter suspect endpoints and compare their packet sequence against expected benign traffic.','The original capture and analyst nodes light up together.','Manual review reduces false positives and improves confidence.','illustrative'),
+ S('REPORT','14 · Publish analyzer results',['soc'],'TOOL DOCUMENTATION','report',['Project: PCAP Security Analyzer','Stack: Python / PyShark / Matplotlib','Outputs: candidate suspicious IPs + visualizations','Validation: manual packet analysis','GitHub: PCAP-Security-Analyzer'],'Finish the complete workflow at an evidence-backed summary.','Document supported input types, parsing, heuristics, generated charts, limitations and a sample verified capture in the repository.','The last frame ends at an analyst report with GitHub source.','The program identifies patterns and candidates; it does not independently prove an attack.','documented')
+ ]}
+};
+const el=id=>document.getElementById(id);
+const backdrop=el('replayBackdrop');
+let current=null,stepIndex=0,playing=false,timer=null,lastFocus=null;
+const escapeHTML=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=escapeHTML;
+const nodeMap=scene=>Object.fromEntries(scene.nodes.map(n=>[n.id,n]));
+function iconGraphic(type){
+ // The machines are SVG-drawn illustrations, not stock photos or external images.
+ const stroke=type==='attacker'?'#ff78aa':type==='siem'?'#9b9dff':'#8ee7de';
+ const g=(s)=>'<g fill="none" stroke="'+stroke+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+s+'</g>';
+ if(['pc','attacker','analyst'].includes(type))return g('<rect x="0" y="0" width="32" height="22" rx="3"/><path d="M16 22v6M7 28h18"/><path d="M5 6h22" opacity=".35"/>');
+ if(type==='firewall')return g('<path d="M16 -2 30 4v12c0 12-9 16-14 19C11 32 2 28 2 16V4Z"/><path d="M7 11h18M7 20h18M16 11v9"/>');
+ if(['server','siem','sensor'].includes(type))return g('<rect x="1" y="-2" width="30" height="32" rx="4"/><path d="M3 8h26M3 18h26"/><circle cx="8" cy="3" r="1" fill="'+stroke+'"/><circle cx="8" cy="13" r="1" fill="'+stroke+'"/><circle cx="8" cy="23" r="1" fill="'+stroke+'"/>');
+ if(type==='mail')return g('<rect x="0" y="2" width="32" height="25" rx="3"/><path d="M1 5l15 11L31 5"/>');
+ if(type==='file')return g('<path d="M5 -1h17l8 8v25H5Z"/><path d="M22-1v9h8M10 16h14M10 22h14"/>');
+ return g('<path d="M0 29V14h7v15M12 29V3h8v26M25 29V9h7v20M0 29h32"/>');
+}
+function renderDiagram(scene,step){
+ const nm=nodeMap(scene),members=new Set(step.path),source=step.path[0],dest=step.path[step.path.length-1];
+ const color=step.phase==='ATTACK'?'#ff5da2':step.phase==='RESPONSE'?'#ffb454':'#3dffa0';
+ const nodeEl=n=>{
+  const role=n.id===source?' active':n.id===dest&&step.path.length>1?' destination':members.has(n.id)?' active':' inactive';
+  return `<g class="topo-node ${esc(n.type)}${role}" transform="translate(${n.x} ${n.y})">
+    <rect class="node-backdrop" x="-84" y="-50" width="168" height="100" rx="12" fill="#10222f" stroke="#3d5c6a" stroke-width="1.1"/>
+    <rect x="-76" y="-42" width="40" height="40" rx="7" fill="#061721" stroke="#244b57"/>
+    <g transform="translate(-72 -35) scale(1)">${iconGraphic(n.type)}</g>
+    <circle cx="-73" cy="37" r="3.5" fill="${members.has(n.id)?color:'#406170'}"/>
+    <text x="-30" y="-20" fill="#d5edf4" font-size="15" font-weight="700">${esc(n.name)}</text>
+    <text x="-30" y="0" fill="#86aab9" font-size="12">${esc(n.sub)}</text>
+    <path d="M-74 21H74" stroke="#284350" stroke-width="1"/>
+    <text x="-62" y="37" fill="${members.has(n.id)?'#91efc7':'#698997'}" font-size="10" letter-spacing=".3">${members.has(n.id)?'● ACTIVE ROUTE':'○ IDLE / MONITOR'}</text>
+   </g>`;
+ };
+ const edges=scene.edges.map(([a,b])=>{const x=nm[a],y=nm[b];return `<line x1="${x.x}" y1="${x.y}" x2="${y.x}" y2="${y.y}" stroke="#28505b" stroke-width="2" stroke-dasharray="5 12" opacity=".65"/>`}).join('');
+ const points=step.path.map(id=>nm[id]).filter(Boolean);
+ const d=points.length>1?'M '+points.map(n=>n.x+','+n.y).join(' L '):'';
+ const activeLine=d?`<path d="${d}" class="replay-wire-current" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round"/><circle r="7" fill="${color}" stroke="#fff" stroke-width="1"><animateMotion dur="2.8s" repeatCount="indefinite" path="${d}" rotate="auto"/></circle>`:'';
+ const grid='<defs><pattern id="topoGrid" width="35" height="35" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#173944" stroke-width="1" opacity=".56"/></pattern></defs><rect width="1000" height="490" fill="url(#topoGrid)"/><text x="28" y="31" font-family="monospace" font-size="13" fill="#598c98">NETWORK VISUALIZATION · NOT LIVE PACKETS</text>';
+ el('replayTopology').innerHTML=`<svg viewBox="0 0 1000 490" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true">${grid}${edges}${activeLine}${scene.nodes.map(nodeEl).join('')}</svg>`;
+ el('replayFlow').textContent=step.path.map(id=>nm[id]?.name).filter(Boolean).join(' → ')||'LOCAL OBSERVATION';
+ el('replayProtocol').textContent='// '+step.wire;
+ // Small screens keep each computer readable and pan to the current activity.
+ const frame=el('replayTopology');
+ if(window.innerWidth<=540&&points.length){const center=points.reduce((a,n)=>a+n.x,0)/points.length;frame.scrollLeft=Math.max(0,Math.round(center/1000*640-frame.clientWidth*.5))}
+}
+const screenLabels={terminal:['Kali / Linux terminal','SHELL'],windows:['Windows · Event Viewer / Security','WINDOWS'],network:['Packet / connection trace','NETWORK'],diagram:['Virtual lab layout','TOPOLOGY'],wazuh:['Wazuh · Security Events / Threat Hunting','SIEM'],firewall:['OPNsense · Routes / Policy','FIREWALL'],report:['Investigation report · Findings','REPORT'],suricata:['Suricata IDS · Packet Events','IDS'],wireshark:['Wireshark · Packet inspection','PCAP'],mail:['Mail headers · Forensic preview','EMAIL'],dns:['DNS / sender authentication','DNS'],pdf:['Static PDF analysis · Kali','FORENSICS'],python:['Python / PyShark analyzer','PYTHON'],chart:['Matplotlib · Protocol distribution','CHART']};
+function renderScreen(step){
+ const [title,mode]=screenLabels[step.screen]||screenLabels.terminal;
+ el('replayScreenTitle').textContent=title;el('replayScreenMode').textContent=mode;
+ let os='';
+ if(step.screen==='windows')os='<div class="replay-os-bar">▦ Event Viewer — Windows Logs / Security</div>';
+ if(step.screen==='wazuh')os='<div class="replay-wazuh-bar">◈ Wazuh Dashboard / Threat Hunting</div>';
+ if(step.screen==='mail')os='<div class="replay-mail-bar">✉ Email header / message preview</div>';
+ if(step.screen==='report')os='<div class="replay-os-bar" style="background:#175449">▤ Investigation notebook / analyst report</div>';
+ let lines=step.lines.map(l=>{
+  const cls=/FAILED|reject|wrong|4625|suspicious|invalid|bad credential|ALERT|EXPLOIT/i.test(l)?'alert':/SUCCESS|Running|verified|PASS|open|enabled|CONFIRMED|JSON/i.test(l)?'ok':/CHECK|QUESTION|no |not |if |possible|WARN|ATTENTION/i.test(l)?'warn':/^\[|^Event|^Logon|^Source|^Status|^Computer|^From|^Return-Path|^Reply-To/i.test(l)?'key':/^\s*#/.test(l)?'dim':'';
+  return `<div class="sr-line ${cls}">${esc(l)}</div>`;
+ }).join('');
+ if(step.screen==='chart')lines='<div style="display:flex;align-items:flex-end;gap:12px;height:64px;margin:4px 0 12px;opacity:.9">'+[['TCP',75],['UDP',45],['ICMP',25],['Other',15]].map(([n,h])=>`<div style="flex:1;min-width:0;text-align:center;color:#7fa4ac;font-size:10px"><div style="height:${h}px;background:linear-gradient(#3fc9ff,#255b73);border-radius:4px 4px 0 0;"></div>${n}</div>`).join('')+'</div>'+lines;
+ el('replayScreenContent').innerHTML=os+lines+'<div class="replay-screen-note">SIMULATED VIEW · No live tools, credentials, packet capture, or real alert data are embedded.</div>';
+}
+function render(){
+ if(!current)return;
+ const scene=scenarios[current],step=scene.steps[stepIndex];
+ el('replayStepCount').textContent='STEP '+String(stepIndex+1).padStart(2,'0')+' / '+String(scene.steps.length).padStart(2,'0')+' · '+step.phase;
+ el('replayStepTitle').textContent=step.title;
+ el('replayNarrative').textContent=step.summary;
+ el('replayAction').textContent=step.action;
+ el('replayObserved').textContent=step.observed;
+ el('replayEvidence').textContent=step.analyst;
+ el('replayTactic').textContent='PHASE: '+step.phase+'  /  '+step.wire;
+ el('replayProgress').style.width=((stepIndex+1)/scene.steps.length*100)+'%';
+ const badge=el('replayEvidenceStatus');badge.className='replay-evidence-status'+(step.proof==='documented'?' documented':'');badge.textContent=step.proof==='documented'?'● Grounded in lab/project description · UI reconstructed':'◇ Illustrative intermediate step · not raw proof';
+ renderDiagram(scene,step);renderScreen(step);
+ const timeline=el('replayTimeline');
+ timeline.querySelectorAll('.replay-step-btn').forEach((btn,i)=>{btn.classList.toggle('active',i===stepIndex);btn.setAttribute('aria-current',i===stepIndex?'step':'false')});
+ timeline.querySelector('.replay-step-btn.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+ el('replayPrev').disabled=stepIndex===0;el('replayNext').disabled=stepIndex===scene.steps.length-1;
+}
+function buildTimeline(scene){
+ el('replayTimeline').innerHTML=scene.steps.map((s,i)=>`<button class="replay-step-btn" type="button" data-step="${i}" aria-label="Go to step ${i+1}: ${esc(s.title)}"><span class="replay-step-index">${String(i+1).padStart(2,'0')}</span><span class="replay-step-copy"><strong>${esc(s.title.replace(/^\d+ · /,''))}</strong><small>${esc(s.phase)}</small></span></button>`).join('');
+}
+function pause(){playing=false;clearTimeout(timer);timer=null;el('replayPlay').textContent='▶ Play sequence';}
+function schedule(){clearTimeout(timer);if(!playing)return;timer=setTimeout(()=>{if(!current)return;const max=scenarios[current].steps.length-1;if(stepIndex<max){stepIndex++;render();schedule()}else pause()},Number(el('replaySpeed').value)||7200)}
+function go(n){if(!current)return;pause();stepIndex=Math.max(0,Math.min(scenarios[current].steps.length-1,n));render()}
+function play(){if(!current)return;if(playing){pause();return}if(stepIndex===scenarios[current].steps.length-1){stepIndex=0;render()}playing=true;el('replayPlay').textContent='Ⅱ Pause sequence';schedule()}
+function open(id){if(!scenarios[id])return;pause();lastFocus=document.activeElement;current=id;stepIndex=0;const s=scenarios[id];el('replayTitle').textContent=s.title;el('replayIntro').textContent=s.intro;el('replayTimelineTitle').textContent=s.short;el('replayTimelineCount').textContent=String(s.steps.length).padStart(2,'0')+' INDIVIDUAL STEPS';el('replayRepo').href=s.repo;buildTimeline(s);backdrop.classList.add('open');backdrop.setAttribute('aria-hidden','false');document.body.classList.add('replay-open');render();el('replayClose').focus();if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)play()}
+function close(){pause();current=null;backdrop.classList.remove('open');backdrop.setAttribute('aria-hidden','true');document.body.classList.remove('replay-open');if(lastFocus?.focus)lastFocus.focus()}
+document.querySelectorAll('.proj-card[data-replay]').forEach(card=>{
+ const id=card.dataset.replay;if(!scenarios[id])return;
+ const hint=card.querySelector('.proj-replay-hint');if(hint)hint.textContent='Launch visual scenario · '+scenarios[id].steps.length+' detailed steps';
+ card.setAttribute('aria-label','Open '+scenarios[id].steps.length+'-step visual scenario: '+scenarios[id].title);
+ card.addEventListener('click',e=>{if(e.target.closest('a,button'))return;open(id)});
+ card.addEventListener('keydown',e=>{if(e.target!==card)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();open(id)}});
+});
+el('replayTimeline').addEventListener('click',e=>{const btn=e.target.closest('[data-step]');if(btn)go(Number(btn.dataset.step))});
+el('replayClose').addEventListener('click',close);
+el('replayRestart').addEventListener('click',()=>go(0));
+el('replayPrev').addEventListener('click',()=>go(stepIndex-1));
+el('replayNext').addEventListener('click',()=>go(stepIndex+1));
+el('replayPlay').addEventListener('click',play);
+el('replaySpeed').addEventListener('change',()=>{if(playing)schedule()});
+backdrop.addEventListener('click',e=>{if(e.target===backdrop)close()});
+document.addEventListener('keydown',e=>{
+ if(!current)return;
+ if(e.key==='Escape'){e.preventDefault();close();return}
+ if(e.key==='ArrowRight' && !['SELECT','INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();go(stepIndex+1)}
+ if(e.key==='ArrowLeft' && !['SELECT','INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();go(stepIndex-1)}
+ if(e.key==='Tab'){
+  const nodes=[...backdrop.querySelectorAll('button:not(:disabled),select,a[href]')].filter(e=>e.getClientRects().length);
+  if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+ }
+});
+// Interactive background atmospheric electric traces; minimal intensity and reduced motion support.
+(function ambient(){
+ const canvas=el('ambientLightning'),toggle=el('ambientToggle');if(!canvas||!toggle)return;
+ const ctx=canvas.getContext('2d');if(!ctx)return;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');let enabled=!reduced.matches;
+ let width=0,height=0,pr=1,frame=0,raf=0,particles=[];
+ const random=(a,b)=>a+(b-a)*Math.random();
+ function resize(){pr=Math.min(window.devicePixelRatio||1,1.8);width=window.innerWidth;height=window.innerHeight;canvas.width=Math.round(width*pr);canvas.height=Math.round(height*pr);ctx.setTransform(pr,0,0,pr,0,0);particles=Array.from({length:Math.max(20,Math.min(60,Math.floor(width/22)))},()=>({x:random(0,width),y:random(0,height),speed:random(.08,.34),radius:random(.4,1.35),flicker:random(0,6.28)}))}
+ function electric(t,anchorX,anchorY){
+  const drift=t*.015, startX=anchorX*width+Math.sin(t*.0004)*36,startY=anchorY*height;
+  const pts=[[startX,startY]];let x=startX,y=startY;
+  for(let i=0;i<7;i++){x+=random(16,45);y+=random(-29,23);pts.push([x,y])}
+  const pulse=(Math.sin(t*.0008)+1)/2;
+  ctx.lineWidth=1;ctx.strokeStyle=`rgba(63,201,255,${.068+pulse*.12})`;ctx.shadowBlur=13;ctx.shadowColor='rgba(61,255,160,.16)';ctx.beginPath();pts.forEach(([xx,yy],i)=>i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy));ctx.stroke();ctx.shadowBlur=0;
+  if(Math.sin(t*.0006)>0.15){ctx.strokeStyle='rgba(61,255,160,.09)';ctx.beginPath();const p=pts[4];ctx.moveTo(...p);ctx.lineTo(p[0]-18,p[1]+29);ctx.lineTo(p[0]-3,p[1]+63);ctx.stroke()}
+ }
+ function draw(t){raf=0;if(!enabled||document.hidden)return;
+  // Cap to roughly 24fps for power savings.
+  if(t-frame<40){raf=requestAnimationFrame(draw);return}frame=t;
+  ctx.clearRect(0,0,width,height);
+  const glow=ctx.createRadialGradient(width*.65,height*.3,20,width*.65,height*.3,Math.max(width,height)*.65);
+  glow.addColorStop(0,'rgba(23,103,116,.11)');glow.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,width,height);
+  particles.forEach(p=>{p.y+=p.speed;if(p.y>height)p.y=-3;const alpha=.11+(Math.sin(t*.001+p.flicker)+1)*.06;ctx.fillStyle=`rgba(90,245,211,${alpha})`;ctx.fillRect(p.x+Math.sin(t*.0003+p.flicker)*12,p.y,p.radius,p.radius)});
+  electric(t,.05,.2);electric(t,.57,.69);
+  raf=requestAnimationFrame(draw);
+ }
+ function update(){canvas.style.display=enabled?'block':'none';toggle.textContent=enabled?'⚡ Ambient FX · on':'⚡ Ambient FX · off';toggle.setAttribute('aria-pressed',String(enabled));if(raf){cancelAnimationFrame(raf);raf=0}if(enabled){frame=0;raf=requestAnimationFrame(draw)}}
+ toggle.addEventListener('click',()=>{enabled=!enabled;update()});
+ reduced.addEventListener?.('change',e=>{enabled=!e.matches;update()});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&enabled&&!raf){frame=0;raf=requestAnimationFrame(draw)}});
+ window.addEventListener('resize',resize,{passive:true});resize();update();
+})();
+})();
+</script>
 </body>
 </html>
